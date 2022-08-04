@@ -1,0 +1,13 @@
+<mat-drawer-container start="drawerLeft" end="drawerRight" autosize="false">
+    <mat-drawer [autoFocus]="" [disableClose]="false" opened="" position="start" #drawerLeft mode="side" from="left">
+        <router-outlet></router-outlet>
+    </mat-drawer>
+
+    <mat-drawer-content>
+        <router-outlet name="mainSide"></router-outlet>
+    </mat-drawer-content>
+
+    <mat-drawer [autoFocus]="" [disableClose]="false" opened="" position="end" #drawerRight mode="side" from="right">
+        <router-outlet name="rightSide"></router-outlet>
+    </mat-drawer>
+</mat-drawer-container>

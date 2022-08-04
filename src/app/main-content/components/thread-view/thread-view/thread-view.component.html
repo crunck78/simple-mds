@@ -1,0 +1,18 @@
+<mat-toolbar role="heading" color="primary">
+  <b style="white-space: break-spaces;">Thread in </b>
+  <app-channel-title [channel]="channel"></app-channel-title>
+</mat-toolbar>
+
+<app-message-view [message]="message"></app-message-view>
+
+<div class="answers-container">
+  <app-answer-view *ngFor="let answer of answers" [answer]="answer">
+    <!-- <button (click)="navigateToThread(message)" style="margin-left: auto" mat-icon-button class="example-icon"
+        aria-label="Example icon-button with question_answer icon">
+        <mat-icon>question_answer</mat-icon>
+      </button> -->
+  </app-answer-view>
+</div>
+
+<editor [(ngModel)]="threadInput" [init]="threadEditor" apiKey='5cl12wv3u6izpmfm16z30fq8eg5i66hndx10c63l1fhthavw'>
+</editor>

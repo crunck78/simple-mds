@@ -1,0 +1,3 @@
+interface Collection{
+    customIdName : string
+}

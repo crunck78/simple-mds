@@ -1,0 +1,18 @@
+<mat-card>
+    <mat-card-header>
+      <img *ngIf="false" mat-card-avatar>
+      <mat-card-title *ngIf="false">User</mat-card-title>
+      <mat-card-subtitle>{{ message?.createdAt | date }}</mat-card-subtitle>
+
+      <ng-content></ng-content>
+
+    </mat-card-header>
+
+    <mat-card-content [innerHTML]="message?.input">
+    </mat-card-content>
+
+    <img *ngIf="false" mat-card-lg-image src="assets/images/iubire.jpeg">
+
+    <mat-card-actions *ngIf="false" align="start">Some Action</mat-card-actions>
+    <mat-card-footer *ngIf="false">Some Footer</mat-card-footer>
+  </mat-card>

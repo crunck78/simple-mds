@@ -1,0 +1,35 @@
+<mat-toolbar role="heading" color="primary">
+    <span>Workspace</span>
+</mat-toolbar>
+
+<mat-accordion displayMode="flat" hideToggle="false" multi="true" togglePosition="before">
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Channels
+                <button (click)="$event.stopPropagation(); openAddChannelDialog()" mat-icon-button
+                    aria-label="Example icon button with a add icon">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-action-row (click)="navigateToChannel(channel)" *ngFor="let channel of channels">
+            <app-channel-title [channel]="channel"></app-channel-title>
+        </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Direct Messages
+                <button (click)="$event.stopPropagation(); openAddDirectMessageDialog()" mat-icon-button
+                    aria-label="Example icon button with a add icon">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-action-row *ngFor="let dm of directMessages">
+            Test
+        </mat-action-row>
+    </mat-expansion-panel>
+</mat-accordion>

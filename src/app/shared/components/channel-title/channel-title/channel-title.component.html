@@ -1,0 +1,6 @@
+<div *ngIf="channel?.closed; then thenBlock else elseBlock"></div>
+<ng-template #thenBlock>
+    <mat-icon>lock</mat-icon>
+</ng-template>
+<ng-template #elseBlock>#</ng-template>
+{{channel?.name}}

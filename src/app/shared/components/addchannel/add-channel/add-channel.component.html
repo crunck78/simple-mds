@@ -1,0 +1,36 @@
+<h2>Create Channel</h2>
+
+<div class="formContainer" [formGroup]="addChannelForm">
+
+    <div class="fieldWrapper">
+        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <mat-label><b>Name</b></mat-label>
+            <mat-error *ngIf="addChannelForm.get('name')?.hasError('required') && addChannelForm.get('name')?.dirty">Don't forget to give your channel a name</mat-error>
+        </div>
+        <mat-form-field>
+            <div style="display: flex;">
+                <div matPrefix><b>#</b></div>
+                <input style="padding: 0 6px;" #nameInput [maxlength]="MAX_LENGTH" formControlName="name" matInput>
+                <div matSuffix><b>{{MAX_LENGTH - nameInput.value.length}}</b></div>
+            </div>
+        </mat-form-field>
+    </div>
+
+    <div class="fieldWrapper">
+        <mat-label><b>Description</b>(optional)</mat-label>
+        <mat-form-field>
+            <input formControlName="description" matInput>
+            <mat-hint>What is this channel about?</mat-hint>
+        </mat-form-field>
+    </div>
+
+    <div class="fieldWrapper">
+        <mat-slide-toggle labelPosition="before" formControlName="closed">
+            <b>Set to "Closed"</b>
+        </mat-slide-toggle>
+    </div>
+</div>
+
+<button mat-raised-button [disabled]="addChannelForm.invalid" (click)="handleCreateChannel()">
+    Create
+</button>

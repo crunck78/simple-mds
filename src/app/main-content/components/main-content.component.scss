@@ -1,0 +1,11 @@
+:host{
+    display: flex;
+    flex: 1;
+
+    mat-drawer-container{
+        flex: 1;
+        mat-drawer{
+            min-width: 300px;
+        }
+    }
+}

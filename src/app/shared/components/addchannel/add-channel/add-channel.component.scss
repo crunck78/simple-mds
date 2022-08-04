@@ -1,0 +1,27 @@
+:host {
+    display: block;
+
+    h2 {
+        margin: 0;
+    }
+
+    .formContainer {
+        margin: 20px 0;
+
+        .fieldWrapper {
+            mat-form-field,
+            mat-slide-toggle {
+                display: block;
+            }
+
+            mat-form-field::ng-deep .mat-form-field-wrapper {
+                display: flex;
+                align-items: center;
+            }
+
+            mat-slide-toggle::ng-deep .mat-slide-toggle-label{
+                justify-content: space-between;
+            }
+        }
+    }
+}
