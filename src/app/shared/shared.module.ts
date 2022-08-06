@@ -13,16 +13,19 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { ChannelTitleComponent } from './components/channel-title/channel-title/channel-title.component';
+import { AuthenticateComponent } from './components/authenticat/authenticate/authenticate.component';
+import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 
 @NgModule({
   declarations: [
     PageNotFoundComponent,
     AddChannelComponent,
     AddDirectMessageComponent,
-    ChannelTitleComponent
+    ChannelTitleComponent,
+    AuthenticateComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +38,9 @@ import { ChannelTitleComponent } from './components/channel-title/channel-title/
     MatInputModule,
     MatButtonModule,
     MatSlideToggleModule,
-    MatIconModule
+    MatIconModule,
+
+    NgxAuthFirebaseUIModule
   ],
   exports: [
     CommonModule,

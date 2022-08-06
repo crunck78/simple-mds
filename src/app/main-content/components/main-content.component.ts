@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthProcessService } from 'ngx-auth-firebaseui';
 
 @Component({
   selector: 'app-main-content',
@@ -7,9 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainContentComponent implements OnInit {
 
-  constructor() {
-
-   }
+  constructor(
+    public auth : AuthProcessService
+  ) {}
 
   ngOnInit(): void {
   }
