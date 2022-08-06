@@ -1,3 +1,14 @@
 <mat-toolbar role="heading" color="primary">
     <span>SimpleMds</span>
+    <div *ngIf="!!(auth.user$ | async); then thenSignOut else elseSignIn"></div>
+    <ng-template #thenSignOut>
+        <button style="margin-left: auto;" mat-icon-button (click)="signOut()">
+            <mat-icon>logout</mat-icon>
+        </button>
+    </ng-template>
+    <ng-template #elseSignIn>
+        <button style="margin-left: auto;" mat-icon-button (click)="signIn()">
+            <mat-icon>login</mat-icon>
+        </button>
+    </ng-template>
 </mat-toolbar>

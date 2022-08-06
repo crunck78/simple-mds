@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthProcessService } from 'ngx-auth-firebaseui';
 
 @Component({
   selector: 'app-top-bar',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopBarComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public auth : AuthProcessService
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  signIn(){
+    //TODO NAVIGATE TO AUTH
+  }
+
+  signOut(){
+    this.auth.afa.signOut();
   }
 
 }
