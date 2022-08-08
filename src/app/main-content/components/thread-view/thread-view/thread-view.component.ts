@@ -6,6 +6,8 @@ import { Message } from 'src/app/shared/models/message.class';
 import { AnswersService } from 'src/app/shared/services/answers/answers.service';
 import { ChannelsService } from 'src/app/shared/services/channels/channels.service';
 import { MessagesService } from 'src/app/shared/services/messages/messages.service';
+import { UsersService } from 'src/app/shared/services/users/users.service';
+import firebase from 'firebase/compat/app';
 
 @Component({
   selector: 'app-thread-view',
@@ -34,12 +36,14 @@ export class ThreadViewComponent implements OnInit {
   message: Message | undefined;
   channel: Channel | undefined;
   answers: Answer[] | undefined;
+  signedInUser: firebase.User | null | undefined;
 
   constructor(
     private route: ActivatedRoute,
     private messagesService: MessagesService,
     private channelsServices: ChannelsService,
-    private answersService: AnswersService
+    private answersService: AnswersService,
+    private usersService: UsersService
   ) {
     this.route.paramMap.subscribe(paramMap => {
       const messageId = paramMap.get('id') as string;
@@ -52,9 +56,12 @@ export class ThreadViewComponent implements OnInit {
             .subscribe(changeInChannel => this.channel = changeInChannel as Channel);
 
           this.answersService.getAnswersByMessage$(messageId)
-          .subscribe(changesInAnswers => this.answers = changesInAnswers as Answer[]);
+            .subscribe(changesInAnswers => this.answers = changesInAnswers as Answer[]);
         });
     });
+
+    this.usersService.getSignedInUser$()
+      .subscribe(change => this.signedInUser = change);
 
   }
 
@@ -71,6 +78,7 @@ export class ThreadViewComponent implements OnInit {
     newMessage.createdAt = new Date().getTime();
     newMessage.messageId = this.message?.customIdName as string;
     newMessage.input = this.threadInput;
+    newMessage.author = this.signedInUser?.uid as string;
 
     return newMessage;
   }

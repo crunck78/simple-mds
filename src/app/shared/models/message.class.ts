@@ -3,6 +3,7 @@ export interface Message {
     input: string;
     chatId: string;
     customIdName?: string;
+    author : string;
 }
 
 export class MessageFactory {
@@ -10,12 +11,14 @@ export class MessageFactory {
     input: string;
     chatId: string;
     customIdName?: string;
+    author : string;
 
     constructor(messageObj?: Message) {
         this.createdAt = messageObj && !!messageObj.createdAt ? messageObj.createdAt : 0;
         this.input = messageObj && !!messageObj.input ? messageObj.input : "";
         this.chatId = messageObj && !!messageObj.chatId ? messageObj.chatId : "";
         this.customIdName = messageObj && !!messageObj.customIdName ? messageObj.customIdName : "";
+        this.author = messageObj && !!messageObj.author ? messageObj.author : "";
     }
 
     toJson() {
@@ -23,6 +26,7 @@ export class MessageFactory {
             createdAt: this.createdAt,
             input: this.input,
             chatId: this.chatId,
+            author: this.author
         }
     }
 }

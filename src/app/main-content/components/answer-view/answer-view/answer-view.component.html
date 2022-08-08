@@ -1,7 +1,7 @@
 <mat-card>
     <mat-card-header>
-      <img *ngIf="false" mat-card-avatar>
-      <mat-card-title *ngIf="false">User</mat-card-title>
+      <img [src]="author?.photoURL || 'assets/images/account_circle.png'" mat-card-avatar>
+      <mat-card-title>{{author?.displayName || 'Unknown Name'}}</mat-card-title>
       <mat-card-subtitle>{{ answer?.createdAt | date }}</mat-card-subtitle>
 
       <ng-content></ng-content>
