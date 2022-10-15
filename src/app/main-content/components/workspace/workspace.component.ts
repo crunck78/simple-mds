@@ -3,6 +3,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { AddChannelComponent } from 'src/app/shared/components/addchannel/add-channel/add-channel.component';
 import { AddDirectMessageComponent } from 'src/app/shared/components/adddirectmessage/add-direct-message/add-direct-message.component';
 import { Channel } from 'src/app/shared/models/channel.class';
+import { DirectMessage } from 'src/app/shared/models/direct-message.class';
 import { ChannelsService } from 'src/app/shared/services/channels/channels.service';
 import { DialogService } from 'src/app/shared/services/dialog/dialog.service';
 import { DirectMessagesService } from 'src/app/shared/services/directmessages/direct-messages.service';
@@ -15,9 +16,7 @@ import { DirectMessagesService } from 'src/app/shared/services/directmessages/di
 export class WorkspaceComponent implements OnInit {
 
   channels: Channel[];
-  directMessages: {
-    customIdName: string;
-  }[];
+  directMessages: DirectMessage[];
 
   constructor(
     private channelsService: ChannelsService,
@@ -34,7 +33,7 @@ export class WorkspaceComponent implements OnInit {
 
     this.directMessages = [];
     this.directMessagesService.getDirectMessages$()
-      .subscribe(changes => this.directMessages = changes);
+      .subscribe(changes => this.directMessages = changes as DirectMessage[]);
   }
 
   ngOnInit(): void {

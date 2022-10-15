@@ -1,1 +1,40 @@
-<p>add-direct-message works!</p>
+<h2>Create Direct Message</h2>
+
+<div class="formContainer" [formGroup]="addDirectMessageForm">
+
+    <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label><b>To:</b></mat-label>
+
+        <mat-chip-list #chipList aria-label="User selection" multiple formControlName="searchUsers">
+            <mat-chip *ngFor="let selectedUser of selectedUsers" (removed)="remove(selectedUser)">
+
+                <img matChipAvatar [src]="selectedUser.photoURL || 'assets/images/account_circle.png'"
+                    alt="Photo of User">
+                {{selectedUser.displayName || 'Unknown Name'}}
+
+                <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                </button>
+
+            </mat-chip>
+
+            <input matInput placeholder="New User..." #nameInput formControlName="searchUsers" [matAutocomplete]="auto" [matChipInputFor]="chipList">
+
+        </mat-chip-list>
+
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let searchedUser of searchedUsers" [value]="searchedUser">
+                <div>
+                    <img [src]="searchedUser.photoURL || 'assets/images/account_circle.png'" alt="">
+                    <span>{{searchedUser.displayName || 'Unknown Name'}}</span>
+                </div>
+            </mat-option>
+        </mat-autocomplete>
+
+    </mat-form-field>
+
+</div>
+
+<button mat-raised-button [disabled]="selectedUsers.length == 0" (click)="handleCreateDirectMessage()">
+    Create
+</button>

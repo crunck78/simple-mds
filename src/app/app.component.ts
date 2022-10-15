@@ -41,4 +41,6 @@ export class AppComponent {
     this.router.navigateByUrl('/workspace');
   }
 
+  myArray = [0, 1, 2, 3];
+
 }

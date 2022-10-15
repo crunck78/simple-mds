@@ -13,6 +13,8 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { momentAdapterFactory, SharedModule } from './shared/shared.module';
 
 
 @NgModule({
@@ -36,7 +38,10 @@ import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
       environment.firebase,
       () => 'simple-mds',
       environment.ngxauthfirebaseui
-    )
+    ),
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: momentAdapterFactory }),
+
+    SharedModule
 
   ],
   providers: [],

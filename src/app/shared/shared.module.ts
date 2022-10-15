@@ -14,10 +14,20 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { ChannelTitleComponent } from './components/channel-title/channel-title/channel-title.component';
 import { AuthenticateComponent } from './components/authenticat/authenticate/authenticate.component';
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
+import { DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/moment';
+import * as moment from 'moment';
+import { CalendarComponent } from './components/calendar/calendar/calendar.component';
+
+export function momentAdapterFactory() {
+  return adapterFactory(moment);
+};
 
 @NgModule({
   declarations: [
@@ -25,7 +35,8 @@ import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
     AddChannelComponent,
     AddDirectMessageComponent,
     ChannelTitleComponent,
-    AuthenticateComponent
+    AuthenticateComponent,
+    CalendarComponent
   ],
   imports: [
     CommonModule,
@@ -39,6 +50,8 @@ import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
     MatButtonModule,
     MatSlideToggleModule,
     MatIconModule,
+    MatChipsModule,
+    MatAutocompleteModule,
 
     NgxAuthFirebaseUIModule
   ],
@@ -54,7 +67,8 @@ import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
     MatSlideToggleModule,
     MatIconModule,
 
-    ChannelTitleComponent
+    ChannelTitleComponent,
+    CalendarComponent
   ],
   providers: [
     {
