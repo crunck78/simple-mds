@@ -24,6 +24,7 @@ import { DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/moment';
 import * as moment from 'moment';
 import { CalendarComponent } from './components/calendar/calendar/calendar.component';
+import { DirectMessageTitleComponent } from './components/direct-message-title/direct-message-title.component';
 
 export function momentAdapterFactory() {
   return adapterFactory(moment);
@@ -36,7 +37,8 @@ export function momentAdapterFactory() {
     AddDirectMessageComponent,
     ChannelTitleComponent,
     AuthenticateComponent,
-    CalendarComponent
+    CalendarComponent,
+    DirectMessageTitleComponent
   ],
   imports: [
     CommonModule,
@@ -68,7 +70,8 @@ export function momentAdapterFactory() {
     MatIconModule,
 
     ChannelTitleComponent,
-    CalendarComponent
+    CalendarComponent,
+    DirectMessageTitleComponent
   ],
   providers: [
     {

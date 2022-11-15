@@ -7,7 +7,7 @@ import { ThreadViewComponent } from './components/thread-view/thread-view/thread
 import { WorkspaceComponent } from './components/workspace/workspace.component';
 
 const mainContentRoutes: Routes = [
-  // { path: '',   redirectTo: '/workspace', pathMatch: 'full'},
+  { path: '',   redirectTo: '/workspace', pathMatch: 'full'},
   { path: 'workspace', component: WorkspaceComponent, canActivate: [LoggedInGuard] },
   { path: 'auth', component: AuthenticateComponent, outlet: 'mainSide'},
   { path: 'channel/:id', component: ChannelViewComponent, outlet: 'mainSide', canActivate: [LoggedInGuard]},

@@ -41,12 +41,16 @@ export class WorkspaceComponent implements OnInit {
 
   openAddDirectMessageDialog(): void {
     this.dialogService.openDialog(AddDirectMessageComponent)
-      .subscribe(result => console.log(result));
+      .subscribe(newDirectMessage => this.createNewDirectMessage(newDirectMessage));
+  }
+
+  createNewDirectMessage(directMessage: DirectMessage){
+    this.directMessagesService.addDirectMessage(directMessage);
   }
 
   openAddChannelDialog(): void {
     this.dialogService.openDialog(AddChannelComponent)
-      .subscribe(newChannel => this.channelsService.addChannel(newChannel));
+      .subscribe(newChannel => this.createNewChannel(newChannel));
   }
 
   createNewChannel(channel: Channel) {

@@ -1,5 +1,6 @@
 <mat-drawer-container start="drawerLeft" end="drawerRight" autosize="false">
-    <mat-drawer [autoFocus]="" [disableClose]="false" [opened]="!!(auth.user$ | async)" position="start" #drawerLeft mode="side" from="left">
+    <mat-drawer [autoFocus]="" [disableClose]="false" [opened]="!!(auth.user$ | async)" position="start" #drawerLeft
+        mode="side" from="left">
         <router-outlet></router-outlet>
     </mat-drawer>
 
@@ -7,7 +8,8 @@
         <router-outlet name="mainSide"></router-outlet>
     </mat-drawer-content>
 
-    <mat-drawer [autoFocus]="" [disableClose]="false" [opened]="!!(auth.user$ | async)" position="end" #drawerRight mode="side" from="right">
+    <mat-drawer [autoFocus]="" [disableClose]="false" [opened]="!!(auth.user$ | async)" position="end" #drawerRight
+        mode="side" from="right">
         <router-outlet name="rightSide"></router-outlet>
     </mat-drawer>
 </mat-drawer-container>

@@ -40,6 +40,7 @@ export class AddDirectMessageComponent implements OnInit {
   }
 
   handleSearchUsersChange(changes: { searchUsers?: string | null | undefined }) {
+
     if (!!changes.searchUsers && changes.searchUsers.length > 0) {
       this.usersService.getUsersByDisplayName$(changes.searchUsers)
         .subscribe(matches => this.searchedUsers = matches as User[]);
@@ -62,9 +63,8 @@ export class AddDirectMessageComponent implements OnInit {
 
   remove(user: User): void {
     const index = this.selectedUsers.indexOf(user);
-    if (index >= 0) {
+    if (index >= 0)
       this.selectedUsers.splice(index, 1);
-    }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
@@ -76,13 +76,14 @@ export class AddDirectMessageComponent implements OnInit {
 
   handleCreateDirectMessage() {
     const directMessage = {
-      // name : this.addChannelForm.value.name,
-      // description : this.addChannelForm.value.description,
-      // closed : this.addChannelForm.value.closed,
-      // messages : [],
-      // members : [],
+      messages : [],
+      members : this.selectedUsers.map(selectedUser => selectedUser.uid)
     } as DirectMessage;
     this.dialogRef.close(directMessage);
+  }
+
+  isAlreadySelected(searchedUsers: User) {
+    return this.selectedUsers.some(selectedUser => selectedUser.uid == searchedUsers.uid);
   }
 
 }

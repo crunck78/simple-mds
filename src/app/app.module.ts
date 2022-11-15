@@ -27,6 +27,7 @@ import { momentAdapterFactory, SharedModule } from './shared/shared.module';
     BrowserAnimationsModule,
     TopBarModule,
 
+
     MainContentModule, // order matters
     AppRoutingModule, // order matters
 

@@ -18,13 +18,15 @@
 
             </mat-chip>
 
-            <input matInput placeholder="New User..." #nameInput formControlName="searchUsers" [matAutocomplete]="auto" [matChipInputFor]="chipList">
+            <input matInput placeholder="New User..." #nameInput formControlName="searchUsers" [matAutocomplete]="auto"
+                [matChipInputFor]="chipList">
 
         </mat-chip-list>
 
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            <mat-option *ngFor="let searchedUser of searchedUsers" [value]="searchedUser">
-                <div>
+            <mat-option [disabled]="isAlreadySelected(searchedUser)" *ngFor="let searchedUser of searchedUsers" [value]="searchedUser">
+                <div [class.selected]="isAlreadySelected(searchedUser)" class="optionSelect">
+                    <mat-icon *ngIf="isAlreadySelected(searchedUser)">check</mat-icon>
                     <img [src]="searchedUser.photoURL || 'assets/images/account_circle.png'" alt="">
                     <span>{{searchedUser.displayName || 'Unknown Name'}}</span>
                 </div>
