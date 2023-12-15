@@ -71,6 +71,7 @@ export class ChannelViewComponent implements OnInit {
     newMessage.chatId = this.channel?.customIdName as string;
     newMessage.input = this.channelInput;
     newMessage.author = this.signedInUser?.uid as string;
+    newMessage.imageUrls = [];
 
     return newMessage;
   }

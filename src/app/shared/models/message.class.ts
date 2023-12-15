@@ -4,6 +4,7 @@ export interface Message {
     chatId: string;
     customIdName?: string;
     author : string;
+    imageUrls?: string[];
 }
 
 export class MessageFactory {
@@ -12,6 +13,7 @@ export class MessageFactory {
     chatId: string;
     customIdName?: string;
     author : string;
+    imageUrls: string[];
 
     constructor(messageObj?: Message) {
         this.createdAt = messageObj && !!messageObj.createdAt ? messageObj.createdAt : 0;
@@ -19,6 +21,7 @@ export class MessageFactory {
         this.chatId = messageObj && !!messageObj.chatId ? messageObj.chatId : "";
         this.customIdName = messageObj && !!messageObj.customIdName ? messageObj.customIdName : "";
         this.author = messageObj && !!messageObj.author ? messageObj.author : "";
+        this.imageUrls = messageObj && !!messageObj.imageUrls ? messageObj.imageUrls : [];
     }
 
     toJson() {
