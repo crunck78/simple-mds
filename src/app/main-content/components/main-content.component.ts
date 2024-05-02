@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthProcessService } from 'ngx-auth-firebaseui';
 
 @Component({
@@ -6,13 +6,9 @@ import { AuthProcessService } from 'ngx-auth-firebaseui';
   templateUrl: './main-content.component.html',
   styleUrls: ['./main-content.component.scss']
 })
-export class MainContentComponent implements OnInit {
+export class MainContentComponent {
 
   constructor(
     public auth : AuthProcessService
   ) {}
-
-  ngOnInit(): void {
-  }
-
 }

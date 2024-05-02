@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthProcessService } from 'ngx-auth-firebaseui';
 
 @Component({
@@ -6,14 +6,11 @@ import { AuthProcessService } from 'ngx-auth-firebaseui';
   templateUrl: './top-bar.component.html',
   styleUrls: ['./top-bar.component.scss']
 })
-export class TopBarComponent implements OnInit {
+export class TopBarComponent {
 
   constructor(
     public auth : AuthProcessService
   ) { }
-
-  ngOnInit(): void {
-  }
 
   signIn(){
     //TODO NAVIGATE TO AUTH

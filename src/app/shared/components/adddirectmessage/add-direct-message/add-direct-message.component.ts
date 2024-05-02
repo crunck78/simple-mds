@@ -1,11 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DirectMessage } from 'src/app/shared/models/direct-message.class';
 import { User } from 'src/app/shared/models/user.class';
 import { UsersService } from 'src/app/shared/services/users/users.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
@@ -14,34 +14,33 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
   templateUrl: './add-direct-message.component.html',
   styleUrls: ['./add-direct-message.component.scss']
 })
-export class AddDirectMessageComponent implements OnInit {
+export class AddDirectMessageComponent implements OnDestroy {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   @ViewChild('nameInput') nameInput!: ElementRef<HTMLInputElement>;
 
-  addDirectMessageForm = new FormGroup(
-    {
-      searchUsers: new FormControl("")
-    }
-  );
+  addDirectMessageForm = new FormGroup({
+    searchUsers: new FormControl("")
+  });
+  addDirectMessageFormSub!: Subscription;
 
   selectedUsers: User[] = [];
   searchedUsers: User[] = [];
+  searchedUsersSub!: Subscription;
 
   constructor(
     private dialogRef: MatDialogRef<AddDirectMessageComponent>,
     private usersService: UsersService
   ) {
-    this.addDirectMessageForm.valueChanges
+    this.addDirectMessageFormSub = this.addDirectMessageForm
+      .valueChanges
       .subscribe(changes => this.handleSearchUsersChange(changes));
-  }
-
-  ngOnInit(): void {
   }
 
   handleSearchUsersChange(changes: { searchUsers?: string | null | undefined }) {
 
     if (!!changes.searchUsers && changes.searchUsers.length > 0) {
+      this.searchedUsersSub?.unsubscribe();
       this.usersService.getUsersByDisplayName$(changes.searchUsers)
         .subscribe(matches => this.searchedUsers = matches as User[]);
     }
@@ -49,15 +48,11 @@ export class AddDirectMessageComponent implements OnInit {
 
   add(event: MatChipInputEvent): void {
     const value = event.value;
-
-    // Add our fruit
     if (value) {
       //this.selectedUsers.push(value);
     }
-
     // Clear the input value
     event.chipInput!.clear();
-
     //this.fruitCtrl.setValue(null);
   }
 
@@ -76,8 +71,8 @@ export class AddDirectMessageComponent implements OnInit {
 
   handleCreateDirectMessage() {
     const directMessage = {
-      messages : [],
-      members : this.selectedUsers.map(selectedUser => selectedUser.uid)
+      messages: [],
+      members: this.selectedUsers.map(selectedUser => selectedUser.uid)
     } as DirectMessage;
     this.dialogRef.close(directMessage);
   }
@@ -86,4 +81,8 @@ export class AddDirectMessageComponent implements OnInit {
     return this.selectedUsers.some(selectedUser => selectedUser.uid == searchedUsers.uid);
   }
 
+  ngOnDestroy(): void {
+    this.addDirectMessageFormSub.unsubscribe();
+    this.searchedUsersSub?.unsubscribe();
+  }
 }

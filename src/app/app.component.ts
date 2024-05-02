@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthProcessService } from 'ngx-auth-firebaseui';
-import { AuthenticateComponent } from './shared/components/authenticat/authenticate/authenticate.component';
+import { AuthenticateComponent } from './shared/components/authenticate/authenticate.component';
 import { DialogService } from './shared/services/dialog/dialog.service';
 
 @Component({
@@ -13,34 +13,34 @@ export class AppComponent {
   title = 'simple-mds';
 
   constructor(
-    private auth : AuthProcessService,
-    private dialogService : DialogService,
+    private auth: AuthProcessService,
+    private dialogService: DialogService,
     private router: Router,
     private route: ActivatedRoute
-  ){
+  ) {
     // this.auth.afa.signOut();
     this.auth.afa
-    .onAuthStateChanged( authUser => {
-        if(!authUser)
+      .onAuthStateChanged(authUser => {
+        if (!authUser)
           this.navigateToAuthentication();
         // else
         //   this.navigateToWorkspace();
-    });
+      });
   }
 
-  openAuthenticationDialog(){
+  openAuthenticationDialog() {
     this.dialogService.openDialog(AuthenticateComponent)
-    .subscribe(closeResult => console.log(closeResult));
+      .subscribe(closeResult => console.log(closeResult));
   }
 
-  navigateToAuthentication(){
-    this.router.navigate([{outlets : {mainSide : ['auth']}}], {relativeTo : this.route.parent});
+  navigateToAuthentication() {
+    this.router.navigate(
+      [{ outlets: { mainSide: ['auth'] } }],
+      { relativeTo: this.route.parent }
+    );
   }
 
-  navigateToWorkspace(){
+  navigateToWorkspace() {
     this.router.navigateByUrl('/workspace');
   }
-
-  myArray = [0, 1, 2, 3];
-
 }

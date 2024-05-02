@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MainContentComponent } from './components/main-content.component';
-import { LeftSideComponent } from './components/left-side/left-side.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { RightSideComponent } from './components/right-side/right-side.component';
 import { MainSideComponent } from './components/main-side/main-side.component';
 import { MainContentRoutingModule } from './main-content-routing.module';
 import { SharedModule } from '../shared/shared.module';

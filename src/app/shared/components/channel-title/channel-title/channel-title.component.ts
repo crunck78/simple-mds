@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Channel } from 'src/app/shared/models/channel.class';
 
 @Component({
@@ -6,12 +6,6 @@ import { Channel } from 'src/app/shared/models/channel.class';
   templateUrl: './channel-title.component.html',
   styleUrls: ['./channel-title.component.scss']
 })
-export class ChannelTitleComponent implements OnInit {
-
+export class ChannelTitleComponent {
   @Input() channel : Channel | undefined;
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }

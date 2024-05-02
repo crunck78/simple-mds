@@ -76,10 +76,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "simple-mds:build:production"
+              "buildTarget": "simple-mds:build:production"
             },
             "development": {
-              "browserTarget": "simple-mds:build:development"
+              "buildTarget": "simple-mds:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -87,7 +87,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "simple-mds:build"
+            "buildTarget": "simple-mds:build"
           }
         },
         "test": {
@@ -114,8 +114,39 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "version": 2
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "simple-mds:build:production",
+              "serveTarget": "simple-mds:serve:production"
+            },
+            "development": {
+              "buildTarget": "simple-mds:build:development",
+              "serveTarget": "simple-mds:serve:development"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
+  },
+  "cli": {
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

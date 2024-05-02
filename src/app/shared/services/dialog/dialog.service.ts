@@ -17,8 +17,4 @@ export class DialogService {
     });
     return dialogRef.afterClosed();
   }
-
-  // closeDialog(component : ComponentType<unknown>){
-
-  // }
 }

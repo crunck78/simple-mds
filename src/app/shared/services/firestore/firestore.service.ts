@@ -14,11 +14,11 @@ export class FirestoreService {
       .add(newItem);
   }
 
-  getCollectionListener$(collectionName: string, queryFn? : QueryFn): Observable<unknown[]> {
+  getCollectionListener$(collectionName: string, queryFn?: QueryFn): Observable<unknown[]> {
     return this.getCollection(collectionName, queryFn).valueChanges({ idField: "customIdName" }) as Observable<unknown[]>;
   }
 
-  getCollection(collectionName: string, queryFn? : QueryFn): AngularFirestoreCollection<unknown> {
+  getCollection(collectionName: string, queryFn?: QueryFn): AngularFirestoreCollection<unknown> {
     return queryFn ? this.fs.collection(collectionName, queryFn) : this.fs.collection(collectionName);
   }
 

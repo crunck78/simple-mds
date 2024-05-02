@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "simple-mds"
+  },
+  "targets": {
+    "simple-mds": {
+      "hosting": {
+        "simple-mds": [
+          "simple-mds"
+        ]
+      }
+    }
   }
 }

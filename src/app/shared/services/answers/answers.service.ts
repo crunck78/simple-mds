@@ -9,20 +9,13 @@ import { FirestoreService } from '../firestore/firestore.service';
 export class AnswersService {
 
   private answers$: Observable<Answer[]>;
-  private answers: Answer[];
 
   constructor(private fs: FirestoreService) {
-    this.answers = [];
     this.answers$ = this.fs.getCollectionListener$('answers') as unknown as Observable<Answer[]>;
-    //this.answers$.subscribe((changes : Answer[]) => this.answers = changes);
   }
 
   getAnswers$(): Observable<Answer[]> {
     return this.answers$;
-  }
-
-  getAnswers(): Answer[] {
-    return this.answers;
   }
 
   addAnswer(answer : Answer){

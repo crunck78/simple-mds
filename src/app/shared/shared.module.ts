@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { AddChannelComponent } from './components/addchannel/add-channel/add-channel.component';
 import { AddDirectMessageComponent } from './components/adddirectmessage/add-direct-message/add-direct-message.component';
 
@@ -18,21 +17,15 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { ChannelTitleComponent } from './components/channel-title/channel-title/channel-title.component';
-import { AuthenticateComponent } from './components/authenticat/authenticate/authenticate.component';
+import { AuthenticateComponent } from './components/authenticate/authenticate.component';
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
-import { DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/moment';
-import * as moment from 'moment';
 import { CalendarComponent } from './components/calendar/calendar/calendar.component';
 import { DirectMessageTitleComponent } from './components/direct-message-title/direct-message-title.component';
 
-export function momentAdapterFactory() {
-  return adapterFactory(moment);
-};
+
 
 @NgModule({
   declarations: [
-    PageNotFoundComponent,
     AddChannelComponent,
     AddDirectMessageComponent,
     ChannelTitleComponent,

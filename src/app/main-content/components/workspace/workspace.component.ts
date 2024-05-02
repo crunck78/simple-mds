@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Component, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AddChannelComponent } from 'src/app/shared/components/addchannel/add-channel/add-channel.component';
 import { AddDirectMessageComponent } from 'src/app/shared/components/adddirectmessage/add-direct-message/add-direct-message.component';
 import { Channel } from 'src/app/shared/models/channel.class';
@@ -13,10 +14,12 @@ import { DirectMessagesService } from 'src/app/shared/services/directmessages/di
   templateUrl: './workspace.component.html',
   styleUrls: ['./workspace.component.scss']
 })
-export class WorkspaceComponent implements OnInit {
+export class WorkspaceComponent implements OnDestroy {
 
   channels: Channel[];
+  channelsSub!: Subscription;
   directMessages: DirectMessage[];
+  directMessagesSub!: Subscription;
 
   constructor(
     private channelsService: ChannelsService,
@@ -26,17 +29,18 @@ export class WorkspaceComponent implements OnInit {
     private route: ActivatedRoute
   ) {
 
-    //this.channels = this.channelsService.getChannels();
     this.channels = [];
-    this.channelsService.getChannels$()
+    this.channelsSub = this.channelsService.getChannels$()
       .subscribe(changes => this.channels = changes);
 
     this.directMessages = [];
-    this.directMessagesService.getDirectMessages$()
+    this.directMessagesSub = this.directMessagesService.getDirectMessages$()
       .subscribe(changes => this.directMessages = changes as DirectMessage[]);
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.channelsSub.unsubscribe();
+    this.directMessagesSub.unsubscribe();
   }
 
   openAddDirectMessageDialog(): void {
@@ -44,7 +48,7 @@ export class WorkspaceComponent implements OnInit {
       .subscribe(newDirectMessage => this.createNewDirectMessage(newDirectMessage));
   }
 
-  createNewDirectMessage(directMessage: DirectMessage){
+  createNewDirectMessage(directMessage: DirectMessage) {
     this.directMessagesService.addDirectMessage(directMessage);
   }
 
@@ -58,7 +62,9 @@ export class WorkspaceComponent implements OnInit {
   }
 
   navigateToChannel(channel: Channel) {
-    //[routerLink]="[{outlets : {mainSide : ['channel', channel.customIdName]}}]"
-    this.router.navigate([{outlets : {mainSide : ['channel', channel.customIdName]}}], {relativeTo : this.route.parent});
+    this.router.navigate(
+      [{ outlets: { mainSide: ['channel', channel.customIdName] } }],
+      { relativeTo: this.route.parent }
+    );
   }
 }

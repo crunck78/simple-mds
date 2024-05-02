@@ -4,21 +4,17 @@ import { Observable } from 'rxjs';
 import { User } from '../../models/user.class';
 import { FirestoreService } from '../firestore/firestore.service';
 import firebase from 'firebase/compat/app';
-import { CollectionReference, DocumentData, Query, QueryFn, QueryGroupFn } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
   private users$: Observable<User[]>;
-  private users: User[];
 
   constructor(
     private fs: FirestoreService,
     private auth: AuthProcessService) {
-    this.users = [];
     this.users$ = this.fs.getCollectionListener$('users') as unknown as Observable<User[]>;
-    //this.users$.subscribe((changes : User[]) => this.users = changes);
   }
 
   getUsers$(): Observable<User[]> {
@@ -27,10 +23,6 @@ export class UsersService {
 
   getUsersByDisplayName$(partialDisplayName: string): Observable<unknown[]> {
     return this.fs.getCollectionListener$('users', ref => ref.where('displayName', '>=', partialDisplayName));
-  }
-
-  getUsers(): User[] {
-    return this.users;
   }
 
   addUser(answer: User) {

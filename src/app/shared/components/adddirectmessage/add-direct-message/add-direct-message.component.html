@@ -1,4 +1,4 @@
-<h2>Create Direct Message</h2>
+<!-- <h2>Create Direct Message</h2>
 
 <div class="formContainer" [formGroup]="addDirectMessageForm">
 
@@ -18,7 +18,7 @@
 
             </mat-chip>
 
-            <input matInput placeholder="New User..." #nameInput formControlName="searchUsers" [matAutocomplete]="auto"
+            <input matInput placeholder="New User..." #nameInput [formControl]="$any(addDirectMessageForm.get('searchUsers'))" [matAutocomplete]="auto"
                 [matChipInputFor]="chipList">
 
         </mat-chip-list>
@@ -39,4 +39,4 @@
 
 <button mat-raised-button [disabled]="selectedUsers.length == 0" (click)="handleCreateDirectMessage()">
     Create
-</button>
+</button> -->
