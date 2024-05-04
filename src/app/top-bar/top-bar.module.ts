@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../shared/shared.module';
-import { TopBarComponent } from './components/top-bar.component';
+import { MaterialModule } from '../shared/modules/material.module';
+
+const imports = [
+  MaterialModule
+]
 
 @NgModule({
-  declarations: [TopBarComponent],
-  imports: [
-    SharedModule
-  ],
-  exports: [
-    TopBarComponent
-  ]
+  imports: [...imports],
+  exports: [...imports]
 })
 export class TopBarModule { }

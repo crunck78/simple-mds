@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DirectMessage } from '../../models/direct-message.class';
 import { FirestoreService } from './../firestore/firestore.service';
@@ -8,9 +8,10 @@ import { FirestoreService } from './../firestore/firestore.service';
 })
 export class DirectMessagesService {
 
-  private directMessages$: Observable<DirectMessage[]>;
+  private directMessages$!: Observable<DirectMessage[]>;
+  private fs = inject(FirestoreService);
 
-  constructor(private fs: FirestoreService) {
+  constructor() {
     this.directMessages$ = this.fs.getCollectionListener$('directMessages') as unknown as Observable<DirectMessage[]>;
   }
 
@@ -25,7 +26,7 @@ export class DirectMessagesService {
   }
 
   getDirectMessage$(id: string) {
-    return this.fs.getDocumentListener$('directMessages', id);
+    return this.fs.getDocumentListenerFromCollection$('directMessages', id);
   }
 
 }

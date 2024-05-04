@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AuthProcessService } from 'ngx-auth-firebaseui';
 import { Observable } from 'rxjs';
 import { User } from '../../models/user.class';
@@ -9,14 +9,13 @@ import firebase from 'firebase/compat/app';
   providedIn: 'root'
 })
 export class UsersService {
-  private users$: Observable<User[]>;
+  private users$!: Observable<User[]>;
+  private fs = inject(FirestoreService);
+  private auth = inject(AuthProcessService);
 
-  constructor(
-    private fs: FirestoreService,
-    private auth: AuthProcessService) {
+  constructor(){
     this.users$ = this.fs.getCollectionListener$('users') as unknown as Observable<User[]>;
   }
-
   getUsers$(): Observable<User[]> {
     return this.users$;
   }
@@ -32,10 +31,14 @@ export class UsersService {
   }
 
   getUser$(id: string): Observable<unknown> {
-    return this.fs.getDocumentListener$('users', id);
+    return this.fs.getDocumentListenerFromCollection$('users', id);
   }
 
   getSignedInUser$(): Observable<firebase.User | null> {
     return this.auth.afa.user;
+  }
+
+  updateUser(id: string, data: Partial<unknown>): Promise<void> {
+    return this.fs.updateDocument('users', id, data);
   }
 }

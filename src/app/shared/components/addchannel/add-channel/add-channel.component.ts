@@ -1,12 +1,16 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Channel } from 'src/app/shared/models/channel.class';
+import { MaterialModule } from 'src/app/shared/modules/material.module';
 
 @Component({
   selector: 'app-add-channel',
   templateUrl: './add-channel.component.html',
-  styleUrls: ['./add-channel.component.scss']
+  styleUrls: ['./add-channel.component.scss'],
+  standalone: true,
+  imports: [CommonModule, MaterialModule, ReactiveFormsModule]
 })
 export class AddChannelComponent {
 
@@ -15,11 +19,8 @@ export class AddChannelComponent {
     name: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(this.MAX_LENGTH)])),
     description: new FormControl(''),
     closed: new FormControl(false),
-  })
-
-  constructor(
-    private dialogRef: MatDialogRef<AddChannelComponent>,
-  ) { }
+  });
+  private dialogRef = inject( MatDialogRef<AddChannelComponent>);
 
   handleCreateChannel() {
     const channel = {
@@ -31,5 +32,4 @@ export class AddChannelComponent {
     } as Channel;
     this.dialogRef.close(channel);
   }
-
 }

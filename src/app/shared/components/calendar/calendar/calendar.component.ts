@@ -24,6 +24,7 @@ const colors: Record<string, EventColor> = {
   selector: 'app-calendar',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss']
+  styleUrls: ['./calendar.component.scss'],
+  standalone: true
 })
 export class CalendarComponent {}

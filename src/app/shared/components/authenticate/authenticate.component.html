@@ -1,6 +1,6 @@
-<ngx-auth-firebaseui
-    (onSuccess)="handleAuthentication($event)"
-    (onError)="handleAuthenticationError($event)"
-    [providers]="[]"
+<ngx-auth-firebaseui *ngIf="loggedInUser === null" [resetPasswordEnabled]="true" [appearance]="'fill'" [guestEnabled]="true"
+    (onSuccess)="handleAuthentication($event)" (onError)="handleAuthenticationError($event)" [providers]="providers"
     (selectedTabChange)="handleTabChange($event)">
 </ngx-auth-firebaseui>
+
+<ngx-auth-firebaseui-user></ngx-auth-firebaseui-user>

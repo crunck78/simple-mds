@@ -1,30 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthProcessService } from 'ngx-auth-firebaseui';
 import { AuthenticateComponent } from './shared/components/authenticate/authenticate.component';
 import { DialogService } from './shared/services/dialog/dialog.service';
+import { AppModule } from './app.module';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  standalone: true,
+  imports: [AppModule]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'simple-mds';
+  private auth = inject(AuthProcessService);
+  private dialogService = inject(DialogService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
-  constructor(
-    private auth: AuthProcessService,
-    private dialogService: DialogService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
-    // this.auth.afa.signOut();
-    this.auth.afa
-      .onAuthStateChanged(authUser => {
+  ngOnInit(): void {
+    this.auth.afa.onAuthStateChanged(authUser => {
         if (!authUser)
           this.navigateToAuthentication();
-        // else
-        //   this.navigateToWorkspace();
       });
   }
 

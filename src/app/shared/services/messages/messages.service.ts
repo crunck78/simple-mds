@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Message } from '../../models/message.class';
 import { FirestoreService } from '../firestore/firestore.service';
@@ -8,9 +8,10 @@ import { FirestoreService } from '../firestore/firestore.service';
 })
 export class MessagesService {
 
-  private messages$: Observable<Message[]>;
+  private messages$!: Observable<Message[]>;
+  private fs = inject(FirestoreService);
 
-  constructor(private fs: FirestoreService) {
+  constructor() {
     this.messages$ = this.fs.getCollectionListener$('messages') as unknown as Observable<Message[]>;
   }
 
@@ -25,7 +26,7 @@ export class MessagesService {
   }
 
   getMessage$(id: string) {
-    return this.fs.getDocumentListener$('messages', id);
+    return this.fs.getDocumentListenerFromCollection$('messages', id);
   }
 
   getMessagesByChannel$(channelId: string) {

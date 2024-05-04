@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, DocumentReference, QueryFn } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 
@@ -6,8 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class FirestoreService {
-
-  constructor(private fs: AngularFirestore) { }
+  private fs = inject(AngularFirestore);
 
   addToCollection(collectionName: string, newItem: unknown): Promise<DocumentReference<unknown>> {
     return this.getCollection(collectionName)
@@ -22,12 +21,20 @@ export class FirestoreService {
     return queryFn ? this.fs.collection(collectionName, queryFn) : this.fs.collection(collectionName);
   }
 
-  getDocumentById(collectionName: string, id: string): AngularFirestoreDocument<unknown> {
+  getDocumentFromCollectionById(collectionName: string, id: string): AngularFirestoreDocument<unknown> {
     return this.getCollection(collectionName).doc(id);
   }
 
-  getDocumentListener$(collectionName: string, id: string): Observable<unknown | undefined> {
-    return this.getDocumentById(collectionName, id).valueChanges({ idField: "customIdName" }) as Observable<unknown | undefined>;
+  getDocumentListenerFromCollection$(collectionName: string, id: string): Observable<unknown | undefined> {
+    return this.getDocumentFromCollectionById(collectionName, id).valueChanges({ idField: "customIdName" }) as Observable<unknown | undefined>;
+  }
+
+  getDocumentById(id: string): AngularFirestoreDocument<unknown> {
+    return this.fs.doc(id);
+  }
+
+  updateDocument(collectionName: string, id: string, data: Partial<unknown>): Promise<void> {
+    return this.getDocumentFromCollectionById(collectionName, id).update(data);
   }
 
 }

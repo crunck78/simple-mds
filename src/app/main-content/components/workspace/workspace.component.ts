@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AddChannelComponent } from 'src/app/shared/components/addchannel/add-channel/add-channel.component';
@@ -8,27 +8,28 @@ import { DirectMessage } from 'src/app/shared/models/direct-message.class';
 import { ChannelsService } from 'src/app/shared/services/channels/channels.service';
 import { DialogService } from 'src/app/shared/services/dialog/dialog.service';
 import { DirectMessagesService } from 'src/app/shared/services/directmessages/direct-messages.service';
+import { WorkspaceModule } from './workspace.module';
 
 @Component({
   selector: 'app-workspace',
   templateUrl: './workspace.component.html',
-  styleUrls: ['./workspace.component.scss']
+  styleUrls: ['./workspace.component.scss'],
+  standalone: true,
+  imports: [WorkspaceModule]
 })
-export class WorkspaceComponent implements OnDestroy {
+export class WorkspaceComponent implements OnInit, OnDestroy {
 
-  channels: Channel[];
+  channels!: Channel[];
   channelsSub!: Subscription;
-  directMessages: DirectMessage[];
+  directMessages!: DirectMessage[];
   directMessagesSub!: Subscription;
+  private channelsService = inject(ChannelsService);
+  private directMessagesService = inject(DirectMessagesService);
+  private dialogService = inject(DialogService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
-  constructor(
-    private channelsService: ChannelsService,
-    private directMessagesService: DirectMessagesService,
-    private dialogService: DialogService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
-
+  ngOnInit(): void {
     this.channels = [];
     this.channelsSub = this.channelsService.getChannels$()
       .subscribe(changes => this.channels = changes);

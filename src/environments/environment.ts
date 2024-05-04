@@ -25,8 +25,8 @@ export const environment = {
     nameMinLength: 2,
     // If set, sign-in/up form is not available until email has been verified.
     // Plus protected routes are still protected even though user is connected.
-    // guardProtectedRoutesUntilEmailIsVerified: true,
-    // enableEmailVerification: true, // default: true
+    guardProtectedRoutesUntilEmailIsVerified: true,
+    enableEmailVerification: true, // default: true
     useRawUserCredential: true, // If set to true outputs the UserCredential object instead of firebase.User after login and signup - Default: false
   },
   production: false

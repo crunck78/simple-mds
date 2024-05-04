@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Answer, AnswerFactory } from 'src/app/shared/models/answer.class';
 import { Channel } from 'src/app/shared/models/channel.class';
@@ -9,15 +9,24 @@ import { MessagesService } from 'src/app/shared/services/messages/messages.servi
 import { UsersService } from 'src/app/shared/services/users/users.service';
 import firebase from 'firebase/compat/app';
 import { Subscription, take } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from 'src/app/shared/modules/material.module';
+import { AnswerViewComponent } from '../../answer-view/answer-view/answer-view.component';
+import { ChannelTitleComponent } from 'src/app/shared/components/channel-title/channel-title/channel-title.component';
+import { MessageViewComponent } from '../../message-view/message-view/message-view.component';
+import { EditorModule } from '@tinymce/tinymce-angular';
+import { FormsModule } from '@angular/forms';
 
 type ToolbarLocation = 'top' | 'bottom' | 'auto';
 
 @Component({
   selector: 'app-thread-view',
   templateUrl: './thread-view.component.html',
-  styleUrls: ['./thread-view.component.scss']
+  styleUrls: ['./thread-view.component.scss'],
+  standalone: true,
+  imports: [CommonModule, MaterialModule, AnswerViewComponent, ChannelTitleComponent, MessageViewComponent, EditorModule, FormsModule]
 })
-export class ThreadViewComponent implements OnDestroy {
+export class ThreadViewComponent implements OnInit, OnDestroy {
 
   input: any;
   threadEditor = {
@@ -42,13 +51,13 @@ export class ThreadViewComponent implements OnDestroy {
   answers: Answer[] | undefined;
   signedInUser: firebase.User | null | undefined;
 
-  constructor(
-    private route: ActivatedRoute,
-    private messagesService: MessagesService,
-    private channelsServices: ChannelsService,
-    private answersService: AnswersService,
-    private usersService: UsersService
-  ) {
+  private route = inject(ActivatedRoute);
+  private messagesService = inject(MessagesService);
+  private channelsServices = inject(ChannelsService);
+  private answersService = inject(AnswersService);
+  private usersService = inject(UsersService);
+
+  ngOnInit(): void {
     this.route.paramMap.subscribe(paramMap => {
       const messageId = paramMap.get('id') as string;
 
@@ -68,7 +77,6 @@ export class ThreadViewComponent implements OnDestroy {
 
     this.usersService.getSignedInUser$()
       .subscribe(change => this.signedInUser = change);
-
   }
 
   ngOnDestroy(): void {

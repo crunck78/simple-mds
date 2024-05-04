@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Channel } from 'src/app/shared/models/channel.class';
 import { Message, MessageFactory } from 'src/app/shared/models/message.class';
@@ -7,15 +7,23 @@ import { MessagesService } from 'src/app/shared/services/messages/messages.servi
 import { UsersService } from 'src/app/shared/services/users/users.service';
 import firebase from 'firebase/compat/app';
 import { Subscription } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from 'src/app/shared/modules/material.module';
+import { EditorModule } from '@tinymce/tinymce-angular';
+import { ChannelTitleComponent } from 'src/app/shared/components/channel-title/channel-title/channel-title.component';
+import { MessageViewComponent } from '../../message-view/message-view/message-view.component';
+import { FormsModule } from '@angular/forms';
 
 type ToolbarLocation = 'top' | 'bottom' | 'auto';
 
 @Component({
   selector: 'app-channel-view',
   templateUrl: './channel-view.component.html',
-  styleUrls: ['./channel-view.component.scss']
+  styleUrls: ['./channel-view.component.scss'],
+  standalone: true,
+  imports: [CommonModule, MaterialModule, EditorModule, ChannelTitleComponent, MessageViewComponent, FormsModule]
 })
-export class ChannelViewComponent implements OnDestroy {
+export class ChannelViewComponent implements OnInit, OnDestroy {
 
   input: any;
   channelEditor = {
@@ -39,13 +47,13 @@ export class ChannelViewComponent implements OnDestroy {
   signedInUser: firebase.User | null | undefined;
   signedInUserSub!: Subscription;
 
-  constructor(
-    private route: ActivatedRoute,
-    private channelsService: ChannelsService,
-    private messagesService: MessagesService,
-    private usersService: UsersService,
-    private router: Router
-  ) {
+  private route = inject(ActivatedRoute);
+  private channelsService = inject(ChannelsService);
+  private messagesService = inject(MessagesService);
+  private usersService = inject(UsersService);
+  private router = inject(Router);
+
+  ngOnInit(): void {
     this.route.paramMap.subscribe(paramMap => {
       const channelId = paramMap.get('id') as string;
       this.channelSub = this.channelsService.getChannel$(channelId)

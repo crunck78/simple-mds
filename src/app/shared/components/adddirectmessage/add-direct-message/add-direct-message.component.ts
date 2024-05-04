@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DirectMessage } from 'src/app/shared/models/direct-message.class';
@@ -12,9 +12,10 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 @Component({
   selector: 'app-add-direct-message',
   templateUrl: './add-direct-message.component.html',
-  styleUrls: ['./add-direct-message.component.scss']
+  styleUrls: ['./add-direct-message.component.scss'],
+  standalone: true
 })
-export class AddDirectMessageComponent implements OnDestroy {
+export class AddDirectMessageComponent implements OnInit, OnDestroy {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   @ViewChild('nameInput') nameInput!: ElementRef<HTMLInputElement>;
@@ -28,10 +29,10 @@ export class AddDirectMessageComponent implements OnDestroy {
   searchedUsers: User[] = [];
   searchedUsersSub!: Subscription;
 
-  constructor(
-    private dialogRef: MatDialogRef<AddDirectMessageComponent>,
-    private usersService: UsersService
-  ) {
+  private dialogRef = inject(MatDialogRef<AddDirectMessageComponent>);
+  private usersService = inject(UsersService);
+
+  ngOnInit(): void {
     this.addDirectMessageFormSub = this.addDirectMessageForm
       .valueChanges
       .subscribe(changes => this.handleSearchUsersChange(changes));
