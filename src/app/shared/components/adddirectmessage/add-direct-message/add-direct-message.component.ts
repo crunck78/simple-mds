@@ -1,19 +1,22 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DirectMessage } from 'src/app/shared/models/direct-message.class';
 import { User } from 'src/app/shared/models/user.class';
 import { UsersService } from 'src/app/shared/services/users/users.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from 'src/app/shared/modules/material.module';
 
 @Component({
   selector: 'app-add-direct-message',
   templateUrl: './add-direct-message.component.html',
   styleUrls: ['./add-direct-message.component.scss'],
-  standalone: true
+  standalone: true,
+  imports: [CommonModule, MaterialModule, ReactiveFormsModule]
 })
 export class AddDirectMessageComponent implements OnInit, OnDestroy {
 
@@ -39,22 +42,14 @@ export class AddDirectMessageComponent implements OnInit, OnDestroy {
   }
 
   handleSearchUsersChange(changes: { searchUsers?: string | null | undefined }) {
-
     if (!!changes.searchUsers && changes.searchUsers.length > 0) {
-      this.searchedUsersSub?.unsubscribe();
+      // this.searchedUsersSub?.unsubscribe();
       this.usersService.getUsersByDisplayName$(changes.searchUsers)
-        .subscribe(matches => this.searchedUsers = matches as User[]);
+        .pipe(take(1))
+        .subscribe(matches => {
+          this.searchedUsers = matches as User[]
+        });
     }
-  }
-
-  add(event: MatChipInputEvent): void {
-    const value = event.value;
-    if (value) {
-      //this.selectedUsers.push(value);
-    }
-    // Clear the input value
-    event.chipInput!.clear();
-    //this.fruitCtrl.setValue(null);
   }
 
   remove(user: User): void {
