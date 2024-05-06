@@ -20,7 +20,8 @@ export class AddChannelComponent {
     description: new FormControl(''),
     closed: new FormControl(false),
   });
-  private dialogRef = inject( MatDialogRef<AddChannelComponent>);
+
+  constructor(private dialogRef: MatDialogRef<AddChannelComponent>) { }
 
   handleCreateChannel() {
     const channel = {
