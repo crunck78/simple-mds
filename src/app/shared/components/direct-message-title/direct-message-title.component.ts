@@ -1,5 +1,5 @@
-import { Component, Input, OnChanges, inject } from '@angular/core';
-import { firstValueFrom, map } from 'rxjs';
+import { Component, Input, OnChanges, OnDestroy, inject } from '@angular/core';
+import { Subscription, firstValueFrom, map } from 'rxjs';
 import { DirectMessage } from '../../models/direct-message.class';
 import { User } from '../../models/user.class';
 import { UsersService } from '../../services/users/users.service';
@@ -14,21 +14,22 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule]
 
 })
-export class DirectMessageTitleComponent implements OnChanges {
-
+export class DirectMessageTitleComponent implements OnChanges, OnDestroy {
   @Input() directMessage: DirectMessage | undefined;
   members: User[] | undefined;
+  membersSub!: Subscription;
   private usersService = inject(UsersService);
 
   ngOnChanges(): void {
-    this.members = [];
     this.setMembers();
   }
 
   setMembers() {
-    this.directMessage?.members
-      .forEach(id => firstValueFrom(this.usersService.getUser$(id))
-        .then(user => this.members?.push(user as User)))
+    if(!this.directMessage) return
+    this.members = [];
+    this.membersSub?.unsubscribe();
+    this.membersSub = this.usersService.getUsersByIdList$(this.directMessage?.members)
+      .subscribe(members => this.members = members as User[]);
   }
 
   isSignedInUser(user: User) {
@@ -36,5 +37,9 @@ export class DirectMessageTitleComponent implements OnChanges {
       .pipe(
         map((signedInUser: firebase.User | null) => signedInUser?.uid == user.uid)
       );
+  }
+
+  ngOnDestroy(): void {
+    this.membersSub?.unsubscribe();
   }
 }

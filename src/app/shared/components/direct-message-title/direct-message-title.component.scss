@@ -1,0 +1,18 @@
+:host {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    overflow-x: auto;
+    align-items: center;
+
+    img {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+    }
+
+    span {
+        font-size: 1rem;
+        white-space: nowrap;
+    }
+}

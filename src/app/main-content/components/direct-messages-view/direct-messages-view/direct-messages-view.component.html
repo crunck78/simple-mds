@@ -1,0 +1,16 @@
+<mat-toolbar role="heading" color="primary">
+    <app-direct-message-title [directMessage]="directMessages"></app-direct-message-title>
+</mat-toolbar>
+
+<div class="messages-container">
+    <app-message-view *ngFor="let message of messages" [message]="message">
+        <button (click)="navigateToThread(message)" style="margin-left: auto" mat-icon-button class="example-icon"
+            aria-label="Example icon-button with question_answer icon">
+            <mat-icon>question_answer</mat-icon>
+        </button>
+    </app-message-view>
+</div>
+
+<editor [(ngModel)]="directMessagesInput" [init]="channelEditor"
+    apiKey='5cl12wv3u6izpmfm16z30fq8eg5i66hndx10c63l1fhthavw'>
+</editor>
