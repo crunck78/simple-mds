@@ -46,7 +46,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
   openAddDirectMessageDialog(): void {
     this.dialogService.openDialog(AddDirectMessageComponent)
-      .subscribe(newDirectMessage => this.createNewDirectMessage(newDirectMessage));
+      .subscribe((newDirectMessage: DirectMessage | undefined) => {
+        if (newDirectMessage) this.createNewDirectMessage(newDirectMessage)
+      });
   }
 
   createNewDirectMessage(directMessage: DirectMessage) {
@@ -55,7 +57,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
   openAddChannelDialog(): void {
     this.dialogService.openDialog(AddChannelComponent)
-      .subscribe(newChannel => this.createNewChannel(newChannel));
+      .subscribe((newChannel: Channel | undefined) => {
+        if (newChannel) this.createNewChannel(newChannel)
+      });
   }
 
   createNewChannel(channel: Channel) {
@@ -65,6 +69,13 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   navigateToChannel(channel: Channel) {
     this.router.navigate(
       [{ outlets: { mainSide: ['channel', channel.customIdName] } }],
+      { relativeTo: this.route.parent }
+    );
+  }
+
+  navigateToDM(channel: DirectMessage) {
+    this.router.navigate(
+      [{ outlets: { mainSide: ['direct-messages', channel.customIdName] } }],
       { relativeTo: this.route.parent }
     );
   }

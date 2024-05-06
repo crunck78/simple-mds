@@ -29,7 +29,7 @@
             </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-action-row *ngFor="let dm of directMessages">
-            <app-direct-message-title [directMessage]="dm" ></app-direct-message-title>
+            <app-direct-message-title (click)="navigateToDM(dm)" [directMessage]="dm"></app-direct-message-title>
         </mat-action-row>
     </mat-expansion-panel>
 </mat-accordion>
