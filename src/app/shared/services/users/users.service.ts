@@ -13,15 +13,28 @@ export class UsersService {
   private fs = inject(FirestoreService);
   private auth = inject(AuthProcessService);
 
-  constructor(){
+  constructor() {
     this.users$ = this.fs.getCollectionListener$('users') as unknown as Observable<User[]>;
   }
+
   getUsers$(): Observable<User[]> {
     return this.users$;
   }
 
+  getUsersByIdList$(idList: string[]): Observable<unknown[]> {
+    return this.fs.getCollectionListener$('users', ref =>
+      ref.where('uid', 'in', idList)
+    );
+  }
+
   getUsersByDisplayName$(partialDisplayName: string): Observable<unknown[]> {
-    return this.fs.getCollectionListener$('users', ref => ref.where('displayName', '>=', partialDisplayName));
+    // Calculate the end string by incrementing the last character of the input string
+    const endString = partialDisplayName.slice(0, -1) + String.fromCharCode(partialDisplayName.charCodeAt(partialDisplayName.length - 1) + 1);
+
+    return this.fs.getCollectionListener$('users', ref =>
+      ref.where('displayName', '>=', partialDisplayName)
+        .where('displayName', '<', endString)
+    );
   }
 
   addUser(answer: User) {
