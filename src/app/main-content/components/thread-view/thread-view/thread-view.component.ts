@@ -48,7 +48,9 @@ export class ThreadViewComponent implements OnInit, OnDestroy {
   message: Message | undefined;
   messageSub!: Subscription;
   channel: Channel | undefined;
+  channelSub!: Subscription;
   answers: Answer[] | undefined;
+  answersSub!: Subscription;
   signedInUser: firebase.User | null | undefined;
 
   private route = inject(ActivatedRoute);
@@ -61,17 +63,16 @@ export class ThreadViewComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe(paramMap => {
       const messageId = paramMap.get('id') as string;
 
-      this.messageSub = this.messageSub = this.messagesService.getMessage$(messageId)
+      this.answersSub = this.answersService.getAnswersByMessage$(messageId)
+        .subscribe(changesInAnswers => this.answers = changesInAnswers as Answer[]);
+
+      this.messageSub = this.messagesService.getMessage$(messageId)
         .subscribe(changeInMessage => {
           this.message = changeInMessage as Message;
-
-          this.channelsServices.getChannel$(this.message.chatId)
-            .pipe(take(1))
+          if (this.channel) return;
+          this.channelSub?.unsubscribe();
+          this.channelSub = this.channelsServices.getChannel$(this.message.chatId)
             .subscribe(changeInChannel => this.channel = changeInChannel as Channel);
-
-          this.answersService.getAnswersByMessage$(messageId)
-            .pipe(take(1))
-            .subscribe(changesInAnswers => this.answers = changesInAnswers as Answer[]);
         });
     });
 
@@ -80,7 +81,9 @@ export class ThreadViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.messageSub.unsubscribe();
+    this.messageSub?.unsubscribe();
+    this.answersSub?.unsubscribe();
+    this.channelSub?.unsubscribe();
   }
 
   handleSaveInput(event: any) {
