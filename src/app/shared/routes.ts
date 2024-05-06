@@ -5,12 +5,16 @@ import { AuthenticateComponent } from "./components/authenticate/authenticate.co
 import { ChannelViewComponent } from "../main-content/components/channel-view/channel-view/channel-view.component";
 import { ThreadViewComponent } from "../main-content/components/thread-view/thread-view/thread-view.component";
 import { PageNotFoundComponent } from "./components/page-not-found/page-not-found.component";
+import { DirectMessagesViewComponent } from "../main-content/components/direct-messages-view/direct-messages-view/direct-messages-view.component";
+import { ProfileComponent } from "./components/profile/profile/profile.component";
 
 export const routes: Routes = [
     { path: '', redirectTo: '/workspace', pathMatch: 'full' },
     { path: 'workspace', component: WorkspaceComponent, canActivate: [LoggedInGuard] },
     { path: 'auth', component: AuthenticateComponent, outlet: 'mainSide' },
     { path: 'channel/:id', component: ChannelViewComponent, outlet: 'mainSide', canActivate: [LoggedInGuard] },
+    { path: 'direct-messages/:id', component: DirectMessagesViewComponent, outlet: 'mainSide', canActivate: [LoggedInGuard] },
     { path: 'message/:id', component: ThreadViewComponent, outlet: 'rightSide', canActivate: [LoggedInGuard] },
+    { path: 'profile', component: ProfileComponent, outlet: 'rightSide', canActivate: [LoggedInGuard]},
     { path: '**', component: PageNotFoundComponent }
   ];
