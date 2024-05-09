@@ -13,6 +13,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
 import { ChannelTitleComponent } from 'src/app/shared/components/channel-title/channel-title/channel-title.component';
 import { MessageViewComponent } from '../../message-view/message-view/message-view.component';
 import { FormsModule } from '@angular/forms';
+import { AuthenticationService } from 'src/app/shared/services/authentication/authentication.service';
 
 type ToolbarLocation = 'top' | 'bottom' | 'auto';
 
@@ -52,23 +53,29 @@ export class ChannelViewComponent implements OnInit, OnDestroy {
   private messagesService = inject(MessagesService);
   private usersService = inject(UsersService);
   private router = inject(Router);
+  private auth = inject(AuthenticationService);
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(paramMap => {
       const channelId = paramMap.get('id') as string;
+
+      this.channelSub?.unsubscribe();
       this.channelSub = this.channelsService.getChannel$(channelId)
         .subscribe(change => this.channel = change as Channel);
+
+      this.messagesSub?.unsubscribe();
       this.messagesSub = this.messagesService.getMessagesByChannel$(channelId)
         .subscribe(changes => this.messages = changes as Message[]);
     });
+    this.signedInUserSub?.unsubscribe();
     this.signedInUserSub = this.usersService.getSignedInUser$()
       .subscribe(change => this.signedInUser = change);
   }
 
   ngOnDestroy(): void {
-    this.channelSub.unsubscribe();
-    this.messagesSub.unsubscribe();
-    this.signedInUserSub.unsubscribe();
+    this.channelSub?.unsubscribe();
+    this.messagesSub?.unsubscribe();
+    this.signedInUserSub?.unsubscribe();
   }
 
   handleSaveInput(event: any) {

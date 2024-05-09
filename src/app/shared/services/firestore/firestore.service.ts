@@ -37,4 +37,7 @@ export class FirestoreService {
     return this.getDocumentFromCollectionById(collectionName, id).update(data);
   }
 
+  deleteDocumentById(collection: string, docId: string): Promise<void> {
+    return this.fs.doc(collection + '/' + docId).delete();
+  }
 }

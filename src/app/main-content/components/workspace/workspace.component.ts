@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, firstValueFrom } from 'rxjs';
 import { AddChannelComponent } from 'src/app/shared/components/addchannel/add-channel/add-channel.component';
 import { AddDirectMessageComponent } from 'src/app/shared/components/adddirectmessage/add-direct-message/add-direct-message.component';
 import { Channel } from 'src/app/shared/models/channel.class';
@@ -9,6 +9,7 @@ import { ChannelsService } from 'src/app/shared/services/channels/channels.servi
 import { DialogService } from 'src/app/shared/services/dialog/dialog.service';
 import { DirectMessagesService } from 'src/app/shared/services/directmessages/direct-messages.service';
 import { WorkspaceModule } from './workspace.module';
+import { AuthenticationService } from 'src/app/shared/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-workspace',
@@ -23,25 +24,35 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   channelsSub!: Subscription;
   directMessages!: DirectMessage[];
   directMessagesSub!: Subscription;
+  userSub!: Subscription;
   private channelsService = inject(ChannelsService);
   private directMessagesService = inject(DirectMessagesService);
   private dialogService = inject(DialogService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private auth = inject(AuthenticationService);
 
   ngOnInit(): void {
-    this.channels = [];
-    this.channelsSub = this.channelsService.getChannels$()
-      .subscribe(changes => this.channels = changes);
 
-    this.directMessages = [];
-    this.directMessagesSub = this.directMessagesService.getDirectMessages$()
-      .subscribe(changes => this.directMessages = changes as DirectMessage[]);
+    this.userSub = this.auth.user$.subscribe(user => {
+      if (!user) return // wait for user
+
+      this.channels = [];
+      this.channelsSub?.unsubscribe();
+      this.channelsSub = this.channelsService.getMemberedChannels$()
+        .subscribe(changes => this.channels = changes);
+
+      this.directMessages = [];
+      this.directMessagesSub?.unsubscribe();
+      this.directMessagesSub = this.directMessagesService.getMemberedDirectMessages$()
+        .subscribe(changes => this.directMessages = changes as DirectMessage[]);
+    });
   }
 
   ngOnDestroy(): void {
-    this.channelsSub.unsubscribe();
-    this.directMessagesSub.unsubscribe();
+    this.userSub?.unsubscribe();
+    this.channelsSub?.unsubscribe();
+    this.directMessagesSub?.unsubscribe();
   }
 
   openAddDirectMessageDialog(): void {

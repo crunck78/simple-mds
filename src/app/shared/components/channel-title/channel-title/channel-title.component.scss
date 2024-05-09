@@ -1,3 +1,16 @@
-:host{
-    display: block;
+:host {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    overflow-x: auto;
+    align-items: center;
+    white-space: nowrap;
+
+    mat-icon {
+        flex-shrink: 0;
+    }
+
+    .channel-menu{
+        margin-left: auto;
+    }
 }
