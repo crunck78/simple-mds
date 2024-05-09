@@ -56,10 +56,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   }
 
   openAddDirectMessageDialog(): void {
-    this.dialogService.openDialog(AddDirectMessageComponent)
-      .subscribe((newDirectMessage: DirectMessage | undefined) => {
-        if (newDirectMessage) this.createNewDirectMessage(newDirectMessage)
-      });
+    const dialogRef = this.dialogService.openDialog(AddDirectMessageComponent);
+    dialogRef.afterClosed().subscribe((newDirectMessage: DirectMessage | undefined) => {
+      if (newDirectMessage) this.createNewDirectMessage(newDirectMessage)
+    });
   }
 
   createNewDirectMessage(directMessage: DirectMessage) {
@@ -67,10 +67,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   }
 
   openAddChannelDialog(): void {
-    this.dialogService.openDialog(AddChannelComponent)
-      .subscribe((newChannel: Channel | undefined) => {
-        if (newChannel) this.createNewChannel(newChannel)
-      });
+    const dialogRef = this.dialogService.openDialog(AddChannelComponent);
+    dialogRef.afterClosed().subscribe((newChannel: Channel | undefined) => {
+      if (newChannel) this.createNewChannel(newChannel)
+    });
   }
 
   createNewChannel(channel: Channel) {

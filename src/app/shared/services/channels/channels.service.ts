@@ -53,4 +53,8 @@ export class ChannelsService {
   async deleteChannel(channelId: string) {
     return this.fs.deleteDocumentById('channels', channelId);
   }
+
+  updateChannel(channelId: string, channelPartial: Partial<Channel>) {
+    return this.fs.updateDocument('channels', channelId, channelPartial)
+  }
 }

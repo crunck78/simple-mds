@@ -1,42 +1,43 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { DirectMessage } from 'src/app/shared/models/direct-message.class';
-import { User } from 'src/app/shared/models/user.class';
-import { UsersService } from 'src/app/shared/services/users/users.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Subscription, take } from 'rxjs';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { CommonModule } from '@angular/common';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Subscription, take } from 'rxjs';
+import { Channel } from 'src/app/shared/models/channel.class';
+import { User } from 'src/app/shared/models/user.class';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
+import { ChannelsService } from 'src/app/shared/services/channels/channels.service';
+import { UsersService } from 'src/app/shared/services/users/users.service';
 
 @Component({
-  selector: 'app-add-direct-message',
-  templateUrl: './add-direct-message.component.html',
-  styleUrls: ['./add-direct-message.component.scss'],
+  selector: 'app-add-members',
   standalone: true,
+  templateUrl: './add-members.component.html',
+  styleUrl: './add-members.component.scss',
   imports: [CommonModule, MaterialModule, ReactiveFormsModule]
 })
-export class AddDirectMessageComponent implements OnInit, OnDestroy {
-
+export class AddMembersComponent implements OnInit, OnDestroy {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   @ViewChild('nameInput') nameInput!: ElementRef<HTMLInputElement>;
+  channel!: Channel;
 
-  addDirectMessageForm = new FormGroup({
+  addMembersForm = new FormGroup({
     searchUsers: new FormControl("")
   });
-  addDirectMessageFormSub!: Subscription;
+  addMembersFormSub!: Subscription;
 
   selectedUsers: User[] = [];
   searchedUsers: User[] = [];
   searchedUsersSub!: Subscription;
 
-  private dialogRef = inject(MatDialogRef<AddDirectMessageComponent>);
+  private dialogRef = inject(MatDialogRef<AddMembersComponent>);
   private usersService = inject(UsersService);
+  private channelsService = inject(ChannelsService);
 
   ngOnInit(): void {
-    this.addDirectMessageFormSub = this.addDirectMessageForm
+    this.addMembersFormSub = this.addMembersForm
       .valueChanges
       .subscribe(changes => this.handleSearchUsersChange(changes));
   }
@@ -46,7 +47,7 @@ export class AddDirectMessageComponent implements OnInit, OnDestroy {
       this.usersService.getUsersByDisplayName$(changes.searchUsers)
         .pipe(take(1))
         .subscribe(matches => {
-          this.searchedUsers = matches as User[]
+          this.searchedUsers = matches.filter(m => !this.channel.members.includes(m.uid)) as User[];
         });
     }
   }
@@ -61,15 +62,14 @@ export class AddDirectMessageComponent implements OnInit, OnDestroy {
     const selectedUser = event.option.value as User;
     this.selectedUsers.push(selectedUser);
     this.nameInput.nativeElement.value = '';
-    this.addDirectMessageForm.get('searchUsers')?.setValue(null);
+    this.addMembersForm.get('searchUsers')?.setValue(null);
   }
 
-  handleCreateDirectMessage() {
-    const directMessage = {
-      messages: [],
-      members: this.selectedUsers.map(selectedUser => selectedUser.uid)
-    } as DirectMessage;
-    this.dialogRef.close(directMessage);
+  handleAddMembers() {
+    const newMembers = this.searchedUsers
+      .filter(u => !this.channel.members.includes(u.uid))
+      .map(u => u.uid);
+    this.dialogRef.close(newMembers);
   }
 
   isAlreadySelected(searchedUsers: User) {
@@ -77,7 +77,7 @@ export class AddDirectMessageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.addDirectMessageFormSub.unsubscribe();
+    this.addMembersFormSub?.unsubscribe();
     this.searchedUsersSub?.unsubscribe();
   }
 }

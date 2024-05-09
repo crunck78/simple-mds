@@ -10,8 +10,12 @@
     <mat-icon>more_vert</mat-icon>
 </button>
 <mat-menu #menu="matMenu">
-    <button (click)="$event.stopPropagation(); deleteChannel()" mat-menu-item>
-        <mat-icon color="warn">delete</mat-icon>
-        <span>Delete</span>
+    <button (click)="$event.stopPropagation(); leaveChannel()" mat-menu-item>
+        <mat-icon color="warn">logout</mat-icon>
+        <span>Leave</span>
+    </button>
+    <button (click)="$event.stopPropagation(); addMembers()" mat-menu-item>
+        <mat-icon color="primary">add</mat-icon>
+        <span>Add Members</span>
     </button>
 </mat-menu>

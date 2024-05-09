@@ -1,0 +1,29 @@
+:host {
+    display: block;
+    margin: 32px;
+
+    h2 {
+        margin: 0;
+    }
+
+    .formContainer {
+        margin: 20px 0;
+    }
+}
+
+.optionSelect{
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    padding-left: 24px;
+
+    mat-icon{
+        position: absolute;
+        left: 0;
+    }
+}
+
+.selected{
+    color: blue !important;
+}

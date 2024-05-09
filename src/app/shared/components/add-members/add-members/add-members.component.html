@@ -1,0 +1,42 @@
+<h2>Add Members</h2>
+
+<div class="formContainer">
+
+    <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label><b>Search:</b></mat-label>
+
+        <mat-chip-grid #usersChipList aria-label="User selection" multiple>
+            <mat-chip-row *ngFor="let selectedUser of selectedUsers" (removed)="remove(selectedUser)">
+
+                <img matChipAvatar [src]="selectedUser.photoURL || 'assets/images/account_circle.png'"
+                    alt="Photo of User">
+                {{selectedUser.displayName || 'Unknown Name'}}
+
+                <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                </button>
+
+            </mat-chip-row>
+
+        </mat-chip-grid>
+
+        <input matInput placeholder="New Member..." #nameInput [formControl]="$any(addMembersForm.get('searchUsers'))" [matAutocomplete]="auto"
+                [matChipInputFor]="usersChipList"/>
+
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option [disabled]="isAlreadySelected(searchedUser)" *ngFor="let searchedUser of searchedUsers" [value]="searchedUser">
+                <div [class.selected]="isAlreadySelected(searchedUser)" class="optionSelect">
+                    <mat-icon *ngIf="isAlreadySelected(searchedUser)">check</mat-icon>
+                    <img [src]="searchedUser.photoURL || 'assets/images/account_circle.png'" alt="">
+                    <span>{{searchedUser.displayName || 'Unknown Name'}}</span>
+                </div>
+            </mat-option>
+        </mat-autocomplete>
+
+    </mat-form-field>
+
+</div>
+
+<button mat-raised-button [disabled]="selectedUsers.length == 0" (click)="handleAddMembers()">
+    Add
+</button>

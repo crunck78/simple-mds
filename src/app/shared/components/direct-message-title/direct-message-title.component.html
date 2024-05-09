@@ -1,5 +1,6 @@
-<ng-container *ngFor="let user of members">
+<ng-container *ngFor="let user of members; let i = index">
     <img [src]="user?.photoURL || 'assets/images/account_circle.png'"
         [alt]="user.displayName" [title]="user.displayName">
-    <span>{{user.displayName || 'Unknown Name'}}</span> |
+    <span>{{user.displayName || 'Unknown Name'}}</span>
+    <span *ngIf="members && i !== members.length - 1">|</span>
 </ng-container>

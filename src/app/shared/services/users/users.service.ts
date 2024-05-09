@@ -27,14 +27,14 @@ export class UsersService {
     );
   }
 
-  getUsersByDisplayName$(partialDisplayName: string): Observable<unknown[]> {
+  getUsersByDisplayName$(partialDisplayName: string): Observable<User[]> {
     // Calculate the end string by incrementing the last character of the input string
     const endString = partialDisplayName.slice(0, -1) + String.fromCharCode(partialDisplayName.charCodeAt(partialDisplayName.length - 1) + 1);
 
     return this.fs.getCollectionListener$('users', ref =>
       ref.where('displayName', '>=', partialDisplayName)
         .where('displayName', '<', endString)
-    );
+    ) as unknown as Observable<User[]>;
   }
 
   addUser(answer: User) {

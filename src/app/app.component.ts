@@ -21,14 +21,14 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.auth.afa.onAuthStateChanged(authUser => {
-        if (!authUser)
-          this.navigateToAuthentication();
-      });
+      if (!authUser)
+        this.navigateToAuthentication();
+    });
   }
 
   openAuthenticationDialog() {
-    this.dialogService.openDialog(AuthenticateComponent)
-      .subscribe(closeResult => console.log(closeResult));
+    const dialogRef = this.dialogService.openDialog(AuthenticateComponent);
+    dialogRef.afterClosed().subscribe(closeResult => console.log(closeResult));
   }
 
   navigateToAuthentication() {

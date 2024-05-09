@@ -14,6 +14,6 @@ export class DialogService {
       minWidth: '300px',
       maxWidth: '500px'
     });
-    return dialogRef.afterClosed();
+    return dialogRef;
   }
 }
