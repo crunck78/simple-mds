@@ -1,9 +1,11 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, firstValueFrom, take } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { FirestoreService } from '../firestore/firestore.service';
 import { Channel } from '../../models/channel.class';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { FeedbackService } from '../feedback/feedback.service';
+import { CollectionReference } from '@angular/fire/compat/firestore';
+import firebase from 'firebase/compat/app';
 
 @Injectable({
   providedIn: 'root'
@@ -46,8 +48,19 @@ export class ChannelsService {
     return this.fs.getCollectionListener$('channels', ref => ref.where('name', '==', name))
   }
 
-  getChannel$(id: string) {
-    return this.fs.getDocumentListenerFromCollection$('channels', id);
+  getChannelsByNameQuery$(partialChannelName: string, queryClosedChannels: boolean = false): Observable<Channel[]> {
+    // Calculate the end string by incrementing the last character of the input string
+    const endString = partialChannelName.slice(0, -1) + String.fromCharCode(partialChannelName.charCodeAt(partialChannelName.length - 1) + 1);
+
+    let query = (ref: CollectionReference<firebase.firestore.DocumentData>) =>
+      ref.where('name', '>=', partialChannelName)
+        .where('name', '<', endString)
+        .where('closed', '==', queryClosedChannels);
+    return this.fs.getCollectionListener$('channels', query) as unknown as Observable<Channel[]>;
+  }
+
+  getChannel$(id: string) : Observable<Channel> {
+    return this.fs.getDocumentListenerFromCollection$('channels', id) as unknown as Observable<Channel>;
   }
 
   async deleteChannel(channelId: string) {
@@ -56,5 +69,30 @@ export class ChannelsService {
 
   updateChannel(channelId: string, channelPartial: Partial<Channel>) {
     return this.fs.updateDocument('channels', channelId, channelPartial)
+  }
+
+  async isMemberOfChannel(channel: Channel | undefined) {
+    if (!channel) return false;
+    const user = await firstValueFrom(this.auth.user$);
+    if (!user) return false;
+    return channel.members.includes(user.uid);
+  }
+
+  async joinChannel(channelId: string) {
+    try {
+      const user = await firstValueFrom(this.auth.user$);
+      if (!user) throw new Error("Not Allowed!");
+      await this.addMembersToChannel(channelId, [user.uid]);
+      return true;
+    } catch (error: any) {
+      this.feedback.showFeedback(error.message);
+      return false;
+    }
+  }
+
+  addMembersToChannel(channelId: string, members: string[]) {
+    return this.updateChannel(
+      channelId,
+      { members: firebase.firestore.FieldValue.arrayUnion(...members) as unknown as string[] });
   }
 }
