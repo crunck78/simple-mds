@@ -1,0 +1,23 @@
+<form class="search-workspace-form">
+    <mat-form-field [ngStyle]="{'position' : 'relative'}" appearance="fill">
+        <mat-label>Search Workspace</mat-label>
+        <span [ngStyle]="{'color' : 'black'}" matTextPrefix *ngIf="prefix">{{prefix}}:</span>
+        <input [matAutocomplete]="auto" (keyup.code.backspace)="onBackspace($event)" [formControl]="searchWorkspaceForm"
+            type="text" matInput placeholder="Search Workspace...">
+        <mat-icon color="primary" matSuffix>search</mat-icon>
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-optgroup *ngIf="prefix === '#' || prefix === null" [label]="'Channels'">
+                <mat-option *ngIf="!channels || channels.length === 0" [disabled]="true">---</mat-option>
+                <mat-option *ngFor="let channel of channels">
+                    <app-channel-title [showMenu]="true" [channel]="channel"></app-channel-title>
+                </mat-option>
+            </mat-optgroup>
+            <mat-optgroup *ngIf="prefix === '@' || prefix === null" [label]="'Members'">
+                <mat-option *ngIf="!members || members.length === 0" [disabled]="true">---</mat-option>
+                <mat-option *ngFor="let member of members">
+                    <app-member-profile-title [member]="member"></app-member-profile-title>
+                </mat-option>
+            </mat-optgroup>
+        </mat-autocomplete>
+    </mat-form-field>
+</form>
