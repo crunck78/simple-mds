@@ -6,16 +6,34 @@
     <mat-icon>tag</mat-icon>
 </ng-template>
 |<span>{{channel?.name || 'Unknown Channel'}}</span>
-|<button (click)="$event.stopPropagation()" class="channel-menu" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Channel Menu">
-    <mat-icon>more_vert</mat-icon>
-</button>
-<mat-menu #menu="matMenu">
-    <button (click)="$event.stopPropagation(); leaveChannel()" mat-menu-item>
-        <mat-icon color="warn">logout</mat-icon>
-        <span>Leave</span>
-    </button>
-    <button (click)="$event.stopPropagation(); addMembers()" mat-menu-item>
-        <mat-icon color="primary">add</mat-icon>
-        <span>Add Members</span>
-    </button>
-</mat-menu>
+<ng-container *ngIf="showMenu">
+    <div *ngIf="(isMemberOfChannel | async) === true; then memberActions else noMemberActions"></div>
+    <ng-template #memberActions>
+        <button (click)="$event.stopPropagation()" class="channel-menu" mat-icon-button [matMenuTriggerFor]="menuMember"
+            aria-label="Channel Menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menuMember="matMenu">
+            <button (click)="$event.stopPropagation(); leaveChannel()" mat-menu-item>
+                <mat-icon color="warn">logout</mat-icon>
+                <span>Leave</span>
+            </button>
+            <button (click)="$event.stopPropagation(); addMembers()" mat-menu-item>
+                <mat-icon color="primary">add</mat-icon>
+                <span>Add Members</span>
+            </button>
+        </mat-menu>
+    </ng-template>
+    <ng-template #noMemberActions>
+        <button (click)="$event.stopPropagation()" class="channel-menu" mat-icon-button [matMenuTriggerFor]="menuNoMember"
+            aria-label="Channel Menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menuNoMember="matMenu">
+            <button *ngIf="!channel?.closed" (click)="$event.stopPropagation(); joinChannel();  " mat-menu-item>
+                <mat-icon color="primary">login</mat-icon>
+                <span>Join</span>
+            </button>
+        </mat-menu>
+    </ng-template>
+</ng-container>
