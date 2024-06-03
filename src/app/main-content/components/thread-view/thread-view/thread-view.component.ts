@@ -8,7 +8,7 @@ import { ChannelsService } from 'src/app/shared/services/channels/channels.servi
 import { MessagesService } from 'src/app/shared/services/messages/messages.service';
 import { UsersService } from 'src/app/shared/services/users/users.service';
 import firebase from 'firebase/compat/app';
-import { Subscription, take } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { AnswerViewComponent } from '../../answer-view/answer-view/answer-view.component';
