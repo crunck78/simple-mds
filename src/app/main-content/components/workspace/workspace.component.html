@@ -14,12 +14,12 @@
             </mat-panel-title>
         </mat-expansion-panel-header>
         <ng-container *ngIf="channels && channels.length > 0; else noChannels">
-            <mat-action-row (click)="navigateToChannel(channel)" *ngFor="let channel of channels">
-                <app-channel-title [channel]="channel"></app-channel-title>
+            <mat-action-row *ngFor="let channel of channels">
+                <app-channel-title (click)="navigationService.navigateToChannel(channel)" [channel]="channel"></app-channel-title>
             </mat-action-row>
         </ng-container>
         <ng-template #noChannels>
-            <mat-action-row>There are no Channels</mat-action-row>
+            <mat-action-row>You joined no Channel</mat-action-row>
         </ng-template>
     </mat-expansion-panel>
 
@@ -35,11 +35,12 @@
         </mat-expansion-panel-header>
         <ng-container *ngIf="directMessages && directMessages.length > 0; else noDirectMessages">
             <mat-action-row *ngFor="let dm of directMessages">
-                <app-direct-message-title (click)="navigateToDM(dm)" [directMessage]="dm"></app-direct-message-title>
+                <app-direct-message-title (click)="navigationService.navigateToDM(dm)"
+                    [directMessage]="dm"></app-direct-message-title>
             </mat-action-row>
         </ng-container>
         <ng-template #noDirectMessages>
-            <mat-action-row>There are no Direct Messages</mat-action-row>
+            <mat-action-row>You have no Direct Messages</mat-action-row>
         </ng-template>
     </mat-expansion-panel>
 </mat-accordion>

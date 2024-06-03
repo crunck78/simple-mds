@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Channel } from 'src/app/shared/models/channel.class';
 import { Message, MessageFactory } from 'src/app/shared/models/message.class';
 import { ChannelsService } from 'src/app/shared/services/channels/channels.service';
@@ -13,7 +13,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
 import { ChannelTitleComponent } from 'src/app/shared/components/channel-title/channel-title/channel-title.component';
 import { MessageViewComponent } from '../../message-view/message-view/message-view.component';
 import { FormsModule } from '@angular/forms';
-import { AuthenticationService } from 'src/app/shared/services/authentication/authentication.service';
+import { NavigationService } from 'src/app/shared/services/navigation/navigation.service';
 
 type ToolbarLocation = 'top' | 'bottom' | 'auto';
 
@@ -52,8 +52,7 @@ export class ChannelViewComponent implements OnInit, OnDestroy {
   private channelsService = inject(ChannelsService);
   private messagesService = inject(MessagesService);
   private usersService = inject(UsersService);
-  private router = inject(Router);
-  private auth = inject(AuthenticationService);
+  public navigationService = inject(NavigationService);
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(paramMap => {
@@ -92,12 +91,5 @@ export class ChannelViewComponent implements OnInit, OnDestroy {
     newMessage.imageUrls = [];
 
     return newMessage;
-  }
-
-  navigateToThread(message: Message) {
-    this.router.navigate(
-      [{ outlets: { rightSide: ['message', message.customIdName] } }],
-      { relativeTo: this.route.parent }
-    );
   }
 }

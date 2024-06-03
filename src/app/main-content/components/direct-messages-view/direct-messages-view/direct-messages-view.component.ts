@@ -5,7 +5,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { MessageViewComponent } from '../../message-view/message-view/message-view.component';
 import { Message, MessageFactory } from 'src/app/shared/models/message.class';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DirectMessage } from 'src/app/shared/models/direct-message.class';
 import firebase from 'firebase/compat/app';
@@ -13,6 +13,7 @@ import { DirectMessagesService } from 'src/app/shared/services/directmessages/di
 import { MessagesService } from 'src/app/shared/services/messages/messages.service';
 import { UsersService } from 'src/app/shared/services/users/users.service';
 import { DirectMessageTitleComponent } from 'src/app/shared/components/direct-message-title/direct-message-title.component';
+import { NavigationService } from 'src/app/shared/services/navigation/navigation.service';
 
 type ToolbarLocation = 'top' | 'bottom' | 'auto';
 
@@ -48,11 +49,11 @@ export class DirectMessagesViewComponent implements OnInit, OnDestroy {
   signedInUser: firebase.User | null | undefined;
   signedInUserSub!: Subscription;
 
-  private router = inject(Router);
   private route = inject(ActivatedRoute);
   private directMessagesService = inject(DirectMessagesService);
   private messagesService = inject(MessagesService);
   private usersService = inject(UsersService);
+  public navigationService = inject(NavigationService);
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(paramMap => {
@@ -86,12 +87,5 @@ export class DirectMessagesViewComponent implements OnInit, OnDestroy {
     newMessage.imageUrls = [];
 
     return newMessage;
-  }
-
-  navigateToThread(message: Message) {
-    this.router.navigate(
-      [{ outlets: { rightSide: ['message', message.customIdName] } }],
-      { relativeTo: this.route.parent }
-    );
   }
 }

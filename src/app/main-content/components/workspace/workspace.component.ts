@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, firstValueFrom } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AddChannelComponent } from 'src/app/shared/components/addchannel/add-channel/add-channel.component';
 import { AddDirectMessageComponent } from 'src/app/shared/components/adddirectmessage/add-direct-message/add-direct-message.component';
 import { Channel } from 'src/app/shared/models/channel.class';
@@ -10,6 +9,7 @@ import { DialogService } from 'src/app/shared/services/dialog/dialog.service';
 import { DirectMessagesService } from 'src/app/shared/services/directmessages/direct-messages.service';
 import { WorkspaceModule } from './workspace.module';
 import { AuthenticationService } from 'src/app/shared/services/authentication/authentication.service';
+import { NavigationService } from 'src/app/shared/services/navigation/navigation.service';
 
 @Component({
   selector: 'app-workspace',
@@ -28,9 +28,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   private channelsService = inject(ChannelsService);
   private directMessagesService = inject(DirectMessagesService);
   private dialogService = inject(DialogService);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
   private auth = inject(AuthenticationService);
+  public navigationService = inject(NavigationService);
 
   ngOnInit(): void {
 
@@ -75,19 +74,5 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
   createNewChannel(channel: Channel) {
     this.channelsService.addChannel(channel);
-  }
-
-  navigateToChannel(channel: Channel) {
-    this.router.navigate(
-      [{ outlets: { mainSide: ['channel', channel.customIdName] } }],
-      { relativeTo: this.route.parent }
-    );
-  }
-
-  navigateToDM(channel: DirectMessage) {
-    this.router.navigate(
-      [{ outlets: { mainSide: ['direct-messages', channel.customIdName] } }],
-      { relativeTo: this.route.parent }
-    );
   }
 }

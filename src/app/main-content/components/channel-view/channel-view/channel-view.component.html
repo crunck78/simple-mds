@@ -4,7 +4,7 @@
 
 <div class="messages-container">
   <app-message-view *ngFor="let message of messages" [message]="message">
-    <button (click)="navigateToThread(message)" style="margin-left: auto" mat-icon-button class="example-icon"
+    <button (click)="navigationService.navigateToThreadByMessage(message)" style="margin-left: auto" mat-icon-button class="example-icon"
       aria-label="Example icon-button with question_answer icon">
       <mat-icon>question_answer</mat-icon>
     </button>
