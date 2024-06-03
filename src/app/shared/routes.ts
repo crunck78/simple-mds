@@ -9,12 +9,12 @@ import { DirectMessagesViewComponent } from "../main-content/components/direct-m
 import { ProfileComponent } from "./components/profile/profile/profile.component";
 
 export const routes: Routes = [
-    { path: '', redirectTo: '/workspace', pathMatch: 'full' },
+    { path: '', redirectTo: '/workspace(mainSide:auth//rightSide:profile)', pathMatch: 'full' },
     { path: 'workspace', component: WorkspaceComponent, canActivate: [LoggedInGuard] },
     { path: 'auth', component: AuthenticateComponent, outlet: 'mainSide' },
     { path: 'channel/:id', component: ChannelViewComponent, outlet: 'mainSide', canActivate: [LoggedInGuard] },
     { path: 'direct-messages/:id', component: DirectMessagesViewComponent, outlet: 'mainSide', canActivate: [LoggedInGuard] },
     { path: 'message/:id', component: ThreadViewComponent, outlet: 'rightSide', canActivate: [LoggedInGuard] },
-    { path: 'profile', component: ProfileComponent, outlet: 'rightSide', canActivate: [LoggedInGuard]},
+    { path: 'profile', component: ProfileComponent, outlet: 'rightSide'},
     { path: '**', component: PageNotFoundComponent }
   ];
