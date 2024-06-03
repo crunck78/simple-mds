@@ -1,12 +1,11 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DirectMessage } from 'src/app/shared/models/direct-message.class';
 import { User } from 'src/app/shared/models/user.class';
 import { UsersService } from 'src/app/shared/services/users/users.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Subscription, take } from 'rxjs';
-import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/shared/modules/material.module';

@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnDestroy, inject } from '@angular/core';
-import { Subscription, firstValueFrom, map } from 'rxjs';
+import { Subscription, map } from 'rxjs';
 import { DirectMessage } from '../../models/direct-message.class';
 import { User } from '../../models/user.class';
 import { UsersService } from '../../services/users/users.service';

@@ -3,7 +3,6 @@ import { Observable, firstValueFrom } from 'rxjs';
 import { DirectMessage } from '../../models/direct-message.class';
 import { FirestoreService } from './../firestore/firestore.service';
 import { AuthenticationService } from '../authentication/authentication.service';
-import firebase from 'firebase/compat/app';
 import { FeedbackService } from '../feedback/feedback.service';
 
 @Injectable({

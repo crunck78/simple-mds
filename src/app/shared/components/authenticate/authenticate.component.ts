@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { AuthProcessService, AuthProvider, NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 import firebase from 'firebase/compat/app';
-import { uniqueNamesGenerator, Config, adjectives, animals, colors, countries, languages, names, starWars, NumberDictionary } from 'unique-names-generator';
+import { uniqueNamesGenerator, Config, adjectives, animals, colors, countries, languages, names, starWars } from 'unique-names-generator';
 import { UsersService } from '../../services/users/users.service';
 import { User, UserFactory } from '../../models/user.class';
 import { CommonModule } from '@angular/common';
