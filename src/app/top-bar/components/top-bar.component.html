@@ -2,7 +2,8 @@
     <span>SimpleMds</span>
     <div *ngIf="!!(auth.user$ | async); then thenSignOut else elseSignIn"></div>
     <ng-template #thenSignOut>
-        <button style="margin-left: auto;" mat-icon-button (click)="signOut()">
+        <app-search-workspace style="margin-left: auto; margin-right: auto;"></app-search-workspace>
+        <button  mat-icon-button (click)="signOut()">
             <mat-icon>logout</mat-icon>
         </button>
     </ng-template>
