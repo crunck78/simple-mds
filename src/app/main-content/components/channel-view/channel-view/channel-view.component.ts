@@ -27,6 +27,7 @@ type ToolbarLocation = 'top' | 'bottom' | 'auto';
 export class ChannelViewComponent implements OnInit, OnDestroy {
 
   input: any;
+  openEditor = false;
   channelEditor = {
     plugins: ['autoresize', 'save'],
     toolbar: ['save'],
@@ -77,9 +78,10 @@ export class ChannelViewComponent implements OnInit, OnDestroy {
     this.signedInUserSub?.unsubscribe();
   }
 
-  handleSaveInput(event: any) {
+  async handleSaveInput(event: any) {
     const newMessage = this.createNewMessage();
-    this.messagesService.addMessage(newMessage.toJson());
+    const result = await this.messagesService.addMessage(newMessage.toJson());
+    if (result) this.channelInput = "";
   }
 
   createNewMessage() {
@@ -91,5 +93,9 @@ export class ChannelViewComponent implements OnInit, OnDestroy {
     newMessage.imageUrls = [];
 
     return newMessage;
+  }
+
+  toggleEditor(){
+    this.openEditor = !this.openEditor;
   }
 }

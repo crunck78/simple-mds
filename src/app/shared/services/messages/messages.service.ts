@@ -19,10 +19,13 @@ export class MessagesService {
     return this.messages$;
   }
 
-  addMessage(message: Message) {
-    this.fs.addToCollection('messages', message)
-      .then(result => console.log(result))
-      .catch(error => console.error(error));
+  async addMessage(message: Message) {
+    try {
+      const result = await this.fs.addToCollection('messages', message);
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 
   getMessage$(id: string) {

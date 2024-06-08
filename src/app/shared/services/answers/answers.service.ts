@@ -19,10 +19,13 @@ export class AnswersService {
     return this.answers$;
   }
 
-  addAnswer(answer: Answer) {
-    this.fs.addToCollection('answers', answer)
-      .then(result => console.log(result))
-      .catch(error => console.error(error));
+  async addAnswer(answer: Answer) {
+    try {
+      const result = await this.fs.addToCollection('answers', answer);
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 
   getAnswer$(id: string) {

@@ -1,6 +1,6 @@
 <mat-toolbar role="heading" color="primary">
-  <b style="white-space: break-spaces;">Thread in </b>
-  <app-channel-title [channel]="channel"></app-channel-title>
+  <b>Thread in </b>
+  <app-channel-title [showMenu]="false" [channel]="channel"></app-channel-title>
 </mat-toolbar>
 
 <app-message-view [message]="message"></app-message-view>
@@ -14,5 +14,11 @@
   </app-answer-view>
 </div>
 
-<!-- <editor [(ngModel)]="threadInput" [init]="threadEditor" apiKey='5cl12wv3u6izpmfm16z30fq8eg5i66hndx10c63l1fhthavw'>
-</editor> -->
+<div class="footer">
+  <button (click)="toggleEditor()" mat-fab color="primary">
+    <mat-icon>chat</mat-icon>
+  </button>
+
+  <editor *ngIf="openEditor" [(ngModel)]="threadInput" [init]="threadEditor" apiKey='5cl12wv3u6izpmfm16z30fq8eg5i66hndx10c63l1fhthavw'>
+  </editor>
+</div>

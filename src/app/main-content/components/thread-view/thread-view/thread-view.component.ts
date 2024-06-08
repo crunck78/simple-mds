@@ -29,6 +29,7 @@ type ToolbarLocation = 'top' | 'bottom' | 'auto';
 export class ThreadViewComponent implements OnInit, OnDestroy {
 
   input: any;
+  openEditor = false;
   threadEditor = {
     // setup: (editor: any) => {
     plugins: ['autoresize', 'save'],
@@ -86,9 +87,11 @@ export class ThreadViewComponent implements OnInit, OnDestroy {
     this.channelSub?.unsubscribe();
   }
 
-  handleSaveInput(event: any) {
+  async handleSaveInput(event: any) {
     const newAnswer = this.createNewAnswer();
-    this.answersService.addAnswer(newAnswer.toJson());
+    const result = await this.answersService.addAnswer(newAnswer.toJson());
+    if (result)
+      this.threadInput = "";
   }
 
   createNewAnswer() {
@@ -99,6 +102,10 @@ export class ThreadViewComponent implements OnInit, OnDestroy {
     newMessage.author = this.signedInUser?.uid as string;
 
     return newMessage;
+  }
+
+  toggleEditor(){
+    this.openEditor = !this.openEditor;
   }
 
 }

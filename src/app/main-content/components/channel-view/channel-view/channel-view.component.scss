@@ -6,10 +6,12 @@
     .messages-container{
         flex: 1;
         overflow-y: auto;
+        margin: auto 30px 16px 30px;
     }
 
-    editor{
-        margin: auto 16px 16px 16px;
+    .footer{
+        margin: auto 30px 16px 30px;
         max-height: 60%;
+        padding: 0 16px;
     }
 }

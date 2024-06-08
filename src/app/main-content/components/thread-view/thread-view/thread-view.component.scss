@@ -8,8 +8,13 @@
         overflow-y: auto;
     }
 
-    editor{
-        margin: auto 16px 16px 16px;
+    .footer{
         max-height: 60%;
+        padding: 0 16px;
+    }
+
+    mat-toolbar{
+        display: flex;
+        justify-content: space-between;
     }
 }
