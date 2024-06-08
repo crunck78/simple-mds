@@ -10,10 +10,6 @@
             width: 300px;
             overflow: hidden;
         }
-
-        mat-drawer-content {
-            padding: 0 30px;
-        }
     }
 
     .drawer-controller {
@@ -43,5 +39,16 @@
             // -moz-box-shadow: -2px 1px 0px 0px rgba(0, 0, 0, 0.78);
             // box-shadow: -2px 1px 0px 0px rgba(0, 0, 0, 0.78);
         }
+    }
+
+    .resize-handle {
+        width: 5px;
+        cursor: ew-resize;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.1);
+        z-index: 1000;
     }
 }

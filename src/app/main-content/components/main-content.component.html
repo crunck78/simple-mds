@@ -16,7 +16,8 @@
     </mat-drawer-content>
 
     <mat-drawer [autoFocus]="" [disableClose]="false" [opened]="!!(auth.user$ | async)" position="end" #drawerRight
-        [mode]="sidesMode" from="right">
+        [mode]="sidesMode" from="right" [style.width.px]="drawerWidth">
+        <div *ngIf="!!(auth.user$ | async)" class="resize-handle" (mousedown)="onResizeStart($event)"></div>
         <router-outlet name="rightSide"></router-outlet>
     </mat-drawer>
 
