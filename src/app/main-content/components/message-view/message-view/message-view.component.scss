@@ -1,4 +1,16 @@
 :host {
     display: block;
     margin: 16px;
+
+    mat-card{
+        max-width: 75%;
+    }
+
+    mat-card-title{
+        font-size: 16px;
+    }
+}
+
+.sing-in-user{
+    margin-left: auto;
 }

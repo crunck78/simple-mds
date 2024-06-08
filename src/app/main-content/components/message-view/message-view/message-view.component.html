@@ -1,18 +1,18 @@
-<mat-card>
-    <mat-card-header>
-      <img alt="Account Avatar" [src]="author?.photoURL || 'assets/images/account_circle.png'" mat-card-avatar>
-      <mat-card-title>{{author?.displayName || 'Unknown Name'}}</mat-card-title>
-      <mat-card-subtitle>{{ message?.createdAt | date }}</mat-card-subtitle>
+<mat-card [class.sing-in-user]="author?.uid === signInUser?.uid">
+  <mat-card-header>
+    <img alt="Account Avatar" [src]="author?.photoURL || 'assets/images/account_circle.png'" mat-card-avatar>
+    <mat-card-title>{{author?.displayName || 'Unknown Name'}}</mat-card-title>
+    <mat-card-subtitle>{{ message?.createdAt | date }}</mat-card-subtitle>
 
-      <ng-content></ng-content>
+    <ng-content></ng-content>
 
-    </mat-card-header>
+  </mat-card-header>
 
-    <mat-card-content [innerHTML]="message?.input">
-    </mat-card-content>
+  <mat-card-content [innerHTML]="message?.input">
+  </mat-card-content>
 
-    <img alt="Secret Image" *ngIf="false" mat-card-lg-image src="assets/images/iubire.jpeg">
+  <img alt="Secret Image" *ngIf="false" mat-card-lg-image src="assets/images/iubire.jpeg">
 
-    <mat-card-actions *ngIf="false" align="start">Some Action</mat-card-actions>
-    <mat-card-footer *ngIf="false">Some Footer</mat-card-footer>
-  </mat-card>
+  <mat-card-actions *ngIf="false" align="start">Some Action</mat-card-actions>
+  <mat-card-footer *ngIf="false">Some Footer</mat-card-footer>
+</mat-card>
